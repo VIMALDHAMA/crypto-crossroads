@@ -1,11 +1,101 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { WalletCard } from "@/components/WalletCard";
+import { TransactionList } from "@/components/TransactionList";
+import { TokenizedAssetCard } from "@/components/TokenizedAssetCard";
+
+const mockTransactions = [
+  {
+    id: "1",
+    type: "send" as const,
+    amount: 1500,
+    currency: "US Dollar",
+    symbol: "$",
+    date: "2024-03-20",
+    status: "completed" as const,
+  },
+  {
+    id: "2",
+    type: "receive" as const,
+    amount: 2000,
+    currency: "US Dollar",
+    symbol: "$",
+    date: "2024-03-19",
+    status: "completed" as const,
+  },
+  {
+    id: "3",
+    type: "send" as const,
+    amount: 500,
+    currency: "Euro",
+    symbol: "€",
+    date: "2024-03-18",
+    status: "pending" as const,
+  },
+];
+
+const mockAssets = [
+  {
+    name: "Manhattan Real Estate Fund",
+    symbol: "MRE",
+    price: 250000,
+    priceSymbol: "$",
+    type: "Real Estate",
+    imageUrl: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600",
+  },
+  {
+    name: "Digital Art Collection",
+    symbol: "DAC",
+    price: 15000,
+    priceSymbol: "$",
+    type: "Art",
+    imageUrl: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&h=600",
+  },
+];
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container py-8 animate-fade-in">
+        <h1 className="text-4xl font-bold text-primary mb-8">Financial Dashboard</h1>
+        
+        <div className="grid gap-6 mb-8">
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Your Wallets</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <WalletCard
+                currency="US Dollar"
+                balance={50000}
+                symbol="$"
+                change24h={2.5}
+              />
+              <WalletCard
+                currency="Euro"
+                balance={42000}
+                symbol="€"
+                change24h={-1.2}
+              />
+              <WalletCard
+                currency="Bitcoin"
+                balance={2.5}
+                symbol="₿"
+                change24h={5.7}
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Tokenized Assets</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {mockAssets.map((asset, index) => (
+                <TokenizedAssetCard key={index} {...asset} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+            <TransactionList transactions={mockTransactions} />
+          </div>
+        </div>
       </div>
     </div>
   );
