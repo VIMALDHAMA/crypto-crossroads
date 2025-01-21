@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 import Assets from "./pages/Assets";
 import Transactions from "./pages/Transactions";
 import Wallet from "./pages/Wallet";
@@ -19,9 +20,10 @@ const App = () => (
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-1 bg-gray-50">
+          <main className="flex-1">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/assets" element={<Assets />} />
               <Route path="/transactions" element={<Transactions />} />
               <Route path="/wallet" element={<Wallet />} />

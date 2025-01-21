@@ -1,129 +1,160 @@
-import { WalletCard } from "@/components/WalletCard";
-import { TransactionList } from "@/components/TransactionList";
-import { TokenizedAssetCard } from "@/components/TokenizedAssetCard";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, Shield, Globe, Coins, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-
-const mockTransactions = [
-  {
-    id: "1",
-    type: "send" as const,
-    amount: 1500,
-    currency: "US Dollar",
-    symbol: "$",
-    date: "2024-03-20",
-    status: "completed" as const,
-  },
-  {
-    id: "2",
-    type: "receive" as const,
-    amount: 2000,
-    currency: "US Dollar",
-    symbol: "$",
-    date: "2024-03-19",
-    status: "completed" as const,
-  },
-  {
-    id: "3",
-    type: "send" as const,
-    amount: 500,
-    currency: "Euro",
-    symbol: "€",
-    date: "2024-03-18",
-    status: "pending" as const,
-  },
-];
-
-const mockAssets = [
-  {
-    name: "Manhattan Real Estate Fund",
-    symbol: "MRE",
-    price: 250000,
-    priceSymbol: "$",
-    type: "Real Estate",
-    imageUrl: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600",
-  },
-  {
-    name: "Digital Art Collection",
-    symbol: "DAC",
-    price: 15000,
-    priceSymbol: "$",
-    type: "Art",
-    imageUrl: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&h=600",
-  },
-];
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container py-8 animate-fade-in">
-        <h1 className="text-4xl font-bold text-primary mb-8">Dashboard</h1>
-        
-        <div className="grid gap-6 mb-8">
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Your Wallets</h2>
-              <Button variant="ghost" asChild>
-                <Link to="/wallet" className="gap-2">
-                  View All
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <WalletCard
-                currency="US Dollar"
-                balance={50000}
-                symbol="$"
-                change24h={2.5}
-              />
-              <WalletCard
-                currency="Euro"
-                balance={42000}
-                symbol="€"
-                change24h={-1.2}
-              />
-              <WalletCard
-                currency="Bitcoin"
-                balance={2.5}
-                symbol="₿"
-                change24h={5.7}
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Tokenized Assets</h2>
-              <Button variant="ghost" asChild>
-                <Link to="/assets" className="gap-2">
-                  View All
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {mockAssets.map((asset, index) => (
-                <TokenizedAssetCard key={index} {...asset} />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Recent Transactions</h2>
-              <Button variant="ghost" asChild>
-                <Link to="/transactions" className="gap-2">
-                  View All
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </div>
-            <TransactionList transactions={mockTransactions} />
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="container py-20 animate-fade-in">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h1 className="text-5xl font-bold text-primary mb-6">
+            Next-Generation Blockchain Financial Platform
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Secure cross-border payments and tokenized asset trading, powered by blockchain technology
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button asChild size="lg">
+              <Link to="/wallet">Get Started</Link>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/assets">Explore Assets</Link>
+            </Button>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-gray-50 py-20">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose BlockFin</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Globe className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">Global Payments</h3>
+                <p className="text-gray-600">Instant cross-border transfers at minimal costs</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Coins className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">Asset Tokenization</h3>
+                <p className="text-gray-600">Trade fractional ownership in real-world assets</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Shield className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">Enterprise Security</h3>
+                <p className="text-gray-600">Bank-grade encryption and multi-sig protection</p>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Zap className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold mb-2">Smart Contracts</h3>
+                <p className="text-gray-600">Automated compliance and instant settlements</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">Transparent Pricing</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <h3 className="font-semibold text-xl mb-2">Basic</h3>
+                <div className="text-3xl font-bold mb-4">$29<span className="text-lg font-normal text-gray-600">/mo</span></div>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Up to 100 transactions/month
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Basic asset tokenization
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Email support
+                  </li>
+                </ul>
+                <Button className="w-full" variant="outline">Get Started</Button>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow border-primary">
+              <CardContent className="pt-6">
+                <h3 className="font-semibold text-xl mb-2">Professional</h3>
+                <div className="text-3xl font-bold mb-4">$99<span className="text-lg font-normal text-gray-600">/mo</span></div>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Unlimited transactions
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Advanced asset tokenization
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    24/7 priority support
+                  </li>
+                </ul>
+                <Button className="w-full">Get Started</Button>
+              </CardContent>
+            </Card>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <h3 className="font-semibold text-xl mb-2">Enterprise</h3>
+                <div className="text-3xl font-bold mb-4">Custom</div>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Custom transaction limits
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Custom asset solutions
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                    Dedicated account manager
+                  </li>
+                </ul>
+                <Button className="w-full" variant="outline">Contact Sales</Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-primary text-white py-20">
+        <div className="container text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+          <p className="text-lg mb-8 max-w-2xl mx-auto">
+            Join thousands of businesses and individuals who trust BlockFin for their blockchain financial needs
+          </p>
+          <Button size="lg" variant="secondary" asChild>
+            <Link to="/wallet">Create Your Account</Link>
+          </Button>
+        </div>
+      </section>
     </div>
   );
 };
