@@ -5,10 +5,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CreditCard, Calendar, Lock } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { CreditCard, Wallet } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNavigate } from "react-router-dom";
 
 const paymentSchema = z.object({
   cardNumber: z.string().min(16, "Invalid card number").max(16, "Invalid card number"),
@@ -21,6 +23,7 @@ const paymentSchema = z.object({
 const Payment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof paymentSchema>>({
     resolver: zodResolver(paymentSchema),
@@ -36,7 +39,6 @@ const Payment = () => {
   const onSubmit = async (values: z.infer<typeof paymentSchema>) => {
     setIsLoading(true);
     try {
-      // TODO: Implement payment processing logic
       console.log("Payment details:", values);
       toast({
         title: "Success",
@@ -53,155 +55,171 @@ const Payment = () => {
     }
   };
 
-  const months = Array.from({ length: 12 }, (_, i) => {
-    const month = (i + 1).toString().padStart(2, "0");
-    return { value: month, label: month };
-  });
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 10 }, (_, i) => {
-    const year = (currentYear + i).toString();
-    return { value: year, label: year };
-  });
+  const handleCryptoPayment = () => {
+    navigate("/crypto-payment");
+  };
 
   return (
-    <div className="container max-w-2xl mx-auto py-16">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <CreditCard className="w-5 h-5" />
-            Add Payment Method
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cardholder Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Name on card" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="cardNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Card Number</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="1234 5678 9012 3456"
-                        {...field}
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, "").slice(0, 16);
-                          field.onChange(value);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="expiryMonth"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Month</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+    <div className="container max-w-2xl mx-auto py-8">
+      <h1 className="text-4xl font-bold mb-8">Payment</h1>
+      <Tabs defaultValue="card">
+        <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsTrigger value="card" className="flex items-center gap-2">
+            <CreditCard className="w-4 h-4" />
+            Card Payment
+          </TabsTrigger>
+          <TabsTrigger value="crypto" className="flex items-center gap-2">
+            <Wallet className="w-4 h-4" />
+            Crypto Payment
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="card">
+          <Card>
+            <CardHeader>
+              <CardTitle>Add Payment Method</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cardholder Name</FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="MM" />
-                          </SelectTrigger>
+                          <Input placeholder="Name on card" {...field} />
                         </FormControl>
-                        <SelectContent>
-                          {months.map((month) => (
-                            <SelectItem key={month.value} value={month.value}>
-                              {month.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="expiryYear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Year</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormField
+                    control={form.control}
+                    name="cardNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Card Number</FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="YYYY" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {years.map((year) => (
-                            <SelectItem key={year.value} value={year.value}>
-                              {year.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="cvv"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>CVV</FormLabel>
-                      <FormControl>
-                        <div className="relative">
                           <Input
-                            type="password"
-                            maxLength={4}
+                            placeholder="1234 5678 9012 3456"
                             {...field}
                             onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, "").slice(0, 4);
+                              const value = e.target.value.replace(/\D/g, "").slice(0, 16);
                               field.onChange(value);
                             }}
                           />
-                          <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Processing..." : "Add Payment Method"}
+                  <div className="grid grid-cols-3 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="expiryMonth"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Month</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="MM" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Array.from({ length: 12 }, (_, i) => {
+                                const month = (i + 1).toString().padStart(2, "0");
+                                return (
+                                  <SelectItem key={month} value={month}>
+                                    {month}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="expiryYear"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Year</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="YYYY" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {Array.from({ length: 10 }, (_, i) => {
+                                const year = (new Date().getFullYear() + i).toString();
+                                return (
+                                  <SelectItem key={year} value={year}>
+                                    {year}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="cvv"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>CVV</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="password"
+                              maxLength={4}
+                              {...field}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, "").slice(0, 4);
+                                field.onChange(value);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Processing..." : "Add Payment Method"}
+                  </Button>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="crypto">
+          <Card>
+            <CardHeader>
+              <CardTitle>Crypto Payment</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Pay using your preferred cryptocurrency. We support multiple chains and tokens.
+              </p>
+              <Button onClick={handleCryptoPayment} className="w-full">
+                Continue with Crypto Payment
               </Button>
-            </form>
-          </Form>
-
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p className="flex items-center justify-center gap-2">
-              <Lock className="w-4 h-4" />
-              Your payment information is secured with end-to-end encryption
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
