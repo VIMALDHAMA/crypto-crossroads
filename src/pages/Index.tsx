@@ -1,6 +1,9 @@
 import { WalletCard } from "@/components/WalletCard";
 import { TransactionList } from "@/components/TransactionList";
 import { TokenizedAssetCard } from "@/components/TokenizedAssetCard";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const mockTransactions = [
   {
@@ -55,11 +58,19 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container py-8 animate-fade-in">
-        <h1 className="text-4xl font-bold text-primary mb-8">Financial Dashboard</h1>
+        <h1 className="text-4xl font-bold text-primary mb-8">Dashboard</h1>
         
         <div className="grid gap-6 mb-8">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Your Wallets</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Your Wallets</h2>
+              <Button variant="ghost" asChild>
+                <Link to="/wallet" className="gap-2">
+                  View All
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               <WalletCard
                 currency="US Dollar"
@@ -83,7 +94,15 @@ const Index = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-4">Tokenized Assets</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Tokenized Assets</h2>
+              <Button variant="ghost" asChild>
+                <Link to="/assets" className="gap-2">
+                  View All
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {mockAssets.map((asset, index) => (
                 <TokenizedAssetCard key={index} {...asset} />
@@ -92,7 +111,15 @@ const Index = () => {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Recent Transactions</h2>
+              <Button variant="ghost" asChild>
+                <Link to="/transactions" className="gap-2">
+                  View All
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
             <TransactionList transactions={mockTransactions} />
           </div>
         </div>
