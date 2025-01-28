@@ -1,6 +1,12 @@
 import { createContext, useContext, useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 
+interface Balance {
+  crypto: string;
+  fiat: string;
+  currency: string;
+}
+
 interface Web3ContextType {
   web3: any | null;
   account: string | null;
@@ -9,12 +15,6 @@ interface Web3ContextType {
   sendTransaction: (to: string, amount: string) => Promise<string>;
   getBalances: () => Promise<Balance[]>;
   isConnected: boolean;
-}
-
-interface Balance {
-  crypto: string;
-  fiat: string;
-  currency: string;
 }
 
 const Web3Context = createContext<Web3ContextType>({} as Web3ContextType);
