@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Account from "./pages/Account";
 import Payment from "./pages/Payment";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/signup" element={<Signup />} />
               <Route path="/account" element={<Account />} />
               <Route path="/payment" element={<Payment />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </main>
         </div>
