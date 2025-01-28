@@ -34,7 +34,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setWeb3(web3Instance);
         setAccount(accounts[0]);
         
-        // Add account change listener
         (window as any).ethereum.on('accountsChanged', (newAccounts: string[]) => {
           setAccount(newAccounts[0] || null);
         });
@@ -100,7 +99,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const getBalances = async (): Promise<Balance[]> => {
-    // Mock data for now - replace with actual Web3 calls
     return [
       { crypto: "ETH", fiat: "50000", currency: "USD" },
       { crypto: "BTC", fiat: "75000", currency: "USD" },
