@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { 
-  ArrowRight, Shield, Globe, Coins, Zap, 
-  Wallet, Receipt, CreditCard, UserCircle, 
-  KeyRound, QrCode, Brain, ArrowLeftRight,
-  BarChart3, PieChart
+  ArrowRight, Shield, Globe, Coins, 
+  Wallet, Receipt, CreditCard, 
+  BarChart3, ArrowLeftRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="container py-20 animate-fade-in">
         <div className="text-center max-w-4xl mx-auto mb-16">
@@ -20,7 +19,7 @@ const Index = () => {
           <p className="text-xl text-gray-600 mb-8">
             Experience seamless crypto trading, secure wallet management, and advanced financial tools powered by blockchain technology
           </p>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex gap-4 justify-center">
             <Button asChild size="lg" className="gap-2">
               <Link to="/signup">
                 Get Started <ArrowRight className="w-4 h-4" />
@@ -34,84 +33,84 @@ const Index = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-muted/50 py-20">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Platform Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Wallet Features */}
+            {/* Wallet */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
                 <Link to="/wallet" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <Wallet className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Multi-Currency Wallet</h3>
-                  <p className="text-gray-600">Manage multiple cryptocurrencies with real-time conversion rates and secure storage</p>
+                  <h3 className="font-semibold text-xl mb-2">Multi-Currency Wallet</h3>
+                  <p className="text-gray-600">Secure storage and management of multiple cryptocurrencies</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Exchange Features */}
+            {/* Exchange */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
                 <Link to="/exchange" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <ArrowLeftRight className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Advanced Exchange</h3>
-                  <p className="text-gray-600">Trade cryptocurrencies with real-time market rates and advanced trading features</p>
+                  <h3 className="font-semibold text-xl mb-2">Advanced Exchange</h3>
+                  <p className="text-gray-600">Trade cryptocurrencies with real-time market data</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Assets Features */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Link to="/assets" className="block">
-                  <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <PieChart className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold mb-2">Tokenized Assets</h3>
-                  <p className="text-gray-600">Invest in real-world assets through blockchain tokenization</p>
-                </Link>
-              </CardContent>
-            </Card>
-
-            {/* Dashboard Features */}
+            {/* Dashboard */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
                 <Link to="/dashboard" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <BarChart3 className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
-                  <p className="text-gray-600">Comprehensive overview of your portfolio with advanced analytics</p>
+                  <h3 className="font-semibold text-xl mb-2">Analytics Dashboard</h3>
+                  <p className="text-gray-600">Comprehensive portfolio tracking and analysis</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Transactions Features */}
+            {/* Assets */}
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <Link to="/assets" className="block">
+                  <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                    <Coins className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-xl mb-2">Digital Assets</h3>
+                  <p className="text-gray-600">Manage and track your digital asset portfolio</p>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Transactions */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
                 <Link to="/transactions" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <Receipt className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Transaction History</h3>
-                  <p className="text-gray-600">Track all your transactions with detailed analytics and reporting</p>
+                  <h3 className="font-semibold text-xl mb-2">Transaction History</h3>
+                  <p className="text-gray-600">Track and analyze your transaction history</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Security Features */}
+            {/* Payments */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
-                <Link to="/account" className="block">
+                <Link to="/payment" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <Shield className="w-6 h-6 text-primary" />
+                    <CreditCard className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Security Center</h3>
-                  <p className="text-gray-600">Advanced security features to protect your assets</p>
+                  <h3 className="font-semibold text-xl mb-2">Crypto Payments</h3>
+                  <p className="text-gray-600">Send and receive crypto payments securely</p>
                 </Link>
               </CardContent>
             </Card>
@@ -125,7 +124,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8 text-center">
             <div>
               <h3 className="text-4xl font-bold text-primary mb-2">$1B+</h3>
-              <p className="text-gray-600">Total Trading Volume</p>
+              <p className="text-gray-600">Trading Volume</p>
             </div>
             <div>
               <h3 className="text-4xl font-bold text-primary mb-2">100K+</h3>
