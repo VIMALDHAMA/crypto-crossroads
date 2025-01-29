@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   ArrowRight, Shield, Globe, Coins, Zap, 
   Wallet, Receipt, CreditCard, UserCircle, 
-  KeyRound, QrCode, Brain, ArrowLeftRight
+  KeyRound, QrCode, Brain, ArrowLeftRight,
+  BarChart3, PieChart
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -12,19 +13,21 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="container py-20 animate-fade-in">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-16">
           <h1 className="text-5xl font-bold text-primary mb-6">
             Next-Generation Blockchain Financial Platform
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            Secure cross-border payments and tokenized asset trading, powered by blockchain technology and AI
+            Experience seamless crypto trading, secure wallet management, and advanced financial tools powered by blockchain technology
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Button asChild size="lg">
-              <Link to="/signup">Get Started</Link>
+            <Button asChild size="lg" className="gap-2">
+              <Link to="/signup">
+                Get Started <ArrowRight className="w-4 h-4" />
+              </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/login">Login</Link>
+              <Link to="/login">Login to Platform</Link>
             </Button>
           </div>
         </div>
@@ -43,20 +46,7 @@ const Index = () => {
                     <Wallet className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="font-semibold mb-2">Multi-Currency Wallet</h3>
-                  <p className="text-gray-600">Manage multiple cryptocurrencies with real-time conversion</p>
-                </Link>
-              </CardContent>
-            </Card>
-
-            {/* QR Code Features */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Link to="/payment" className="block">
-                  <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <QrCode className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold mb-2">QR Payments</h3>
-                  <p className="text-gray-600">Send and receive payments using QR codes</p>
+                  <p className="text-gray-600">Manage multiple cryptocurrencies with real-time conversion rates and secure storage</p>
                 </Link>
               </CardContent>
             </Card>
@@ -68,34 +58,47 @@ const Index = () => {
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <ArrowLeftRight className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Crypto Exchange</h3>
-                  <p className="text-gray-600">Real-time crypto-to-crypto conversion with AI optimization</p>
+                  <h3 className="font-semibold mb-2">Advanced Exchange</h3>
+                  <p className="text-gray-600">Trade cryptocurrencies with real-time market rates and advanced trading features</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* AI Features */}
+            {/* Assets Features */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
-                <Link to="/insights" className="block">
+                <Link to="/assets" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <Brain className="w-6 h-6 text-primary" />
+                    <PieChart className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">AI Insights</h3>
-                  <p className="text-gray-600">Smart analytics and fraud detection</p>
+                  <h3 className="font-semibold mb-2">Tokenized Assets</h3>
+                  <p className="text-gray-600">Invest in real-world assets through blockchain tokenization</p>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Transaction Features */}
+            {/* Dashboard Features */}
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="pt-6">
+                <Link to="/dashboard" className="block">
+                  <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                    <BarChart3 className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Analytics Dashboard</h3>
+                  <p className="text-gray-600">Comprehensive overview of your portfolio with advanced analytics</p>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Transactions Features */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
                 <Link to="/transactions" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <Receipt className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Transactions</h3>
-                  <p className="text-gray-600">View history and optimize fees</p>
+                  <h3 className="font-semibold mb-2">Transaction History</h3>
+                  <p className="text-gray-600">Track all your transactions with detailed analytics and reporting</p>
                 </Link>
               </CardContent>
             </Card>
@@ -103,12 +106,12 @@ const Index = () => {
             {/* Security Features */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
-                <Link to="/security" className="block">
+                <Link to="/account" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
                     <Shield className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-semibold mb-2">Security</h3>
-                  <p className="text-gray-600">Advanced security features and monitoring</p>
+                  <h3 className="font-semibold mb-2">Security Center</h3>
+                  <p className="text-gray-600">Advanced security features to protect your assets</p>
                 </Link>
               </CardContent>
             </Card>
@@ -116,12 +119,32 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="py-20">
+        <div className="container">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <h3 className="text-4xl font-bold text-primary mb-2">$1B+</h3>
+              <p className="text-gray-600">Total Trading Volume</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-primary mb-2">100K+</h3>
+              <p className="text-gray-600">Active Users</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-primary mb-2">50+</h3>
+              <p className="text-gray-600">Supported Currencies</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="bg-primary text-white py-20">
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+          <h2 className="text-3xl font-bold mb-6">Ready to Start Trading?</h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto">
-            Join thousands of users who trust our platform for their crypto needs
+            Join thousands of users who trust our platform for their crypto trading needs
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg" variant="secondary" asChild>
