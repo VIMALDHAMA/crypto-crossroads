@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight, ArrowDownLeft, TrendingUp, TrendingDown } from "lucide-react";
 
 interface WalletCardProps {
   currency: string;
@@ -14,24 +15,33 @@ export function WalletCard({ currency, balance, symbol, change24h }: WalletCardP
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{currency}</CardTitle>
         <div className="flex items-center space-x-2">
-          {change24h && (
-            <span className={`text-xs ${change24h >= 0 ? "text-green-500" : "text-red-500"}`}>
-              {change24h >= 0 ? "+" : ""}{change24h}%
-            </span>
+          {change24h !== undefined && (
+            <div className={`flex items-center ${change24h >= 0 ? "text-green-500" : "text-red-500"}`}>
+              {change24h >= 0 ? (
+                <TrendingUp className="w-4 h-4 mr-1" />
+              ) : (
+                <TrendingDown className="w-4 h-4 mr-1" />
+              )}
+              <span className="text-xs font-medium">
+                {change24h >= 0 ? "+" : ""}{change24h}%
+              </span>
+            </div>
           )}
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{symbol}{balance.toLocaleString()}</div>
-        <div className="flex justify-between mt-4">
-          <button className="flex items-center text-sm text-secondary hover:text-secondary/80">
+        <div className="text-2xl font-bold">
+          {symbol}{balance.toLocaleString()}
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <Button variant="outline" size="sm" className="w-full flex items-center justify-center">
             <ArrowUpRight className="w-4 h-4 mr-1" />
             Send
-          </button>
-          <button className="flex items-center text-sm text-secondary hover:text-secondary/80">
+          </Button>
+          <Button variant="outline" size="sm" className="w-full flex items-center justify-center">
             <ArrowDownLeft className="w-4 h-4 mr-1" />
             Receive
-          </button>
+          </Button>
         </div>
       </CardContent>
     </Card>
