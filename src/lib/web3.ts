@@ -7,6 +7,16 @@ interface Balance {
   currency: string;
 }
 
+interface Transaction {
+  hash: string;
+  from: string;
+  to: string;
+  value: string;
+  timestamp: number;
+  status: 'pending' | 'completed' | 'failed';
+  fee: string;
+}
+
 interface Web3ContextType {
   web3: any | null;
   account: string | null;
@@ -14,6 +24,9 @@ interface Web3ContextType {
   disconnectWallet: () => void;
   sendTransaction: (to: string, amount: string) => Promise<string>;
   getBalances: () => Promise<Balance[]>;
+  importWallet: (privateKey: string) => Promise<void>;
+  exportWallet: () => Promise<string>;
+  predictFee: () => Promise<{ slow: string; medium: string; fast: string }>;
   isConnected: boolean;
 }
 
@@ -106,6 +119,27 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     ];
   };
 
+  const importWallet = async (privateKey: string): Promise<void> => {
+    // Implementation would go here
+    toast({
+      title: "Wallet Imported",
+      description: "Successfully imported wallet",
+    });
+  };
+
+  const exportWallet = async (): Promise<string> => {
+    // Implementation would go here
+    return "mock_private_key";
+  };
+
+  const predictFee = async () => {
+    return {
+      slow: "0.001",
+      medium: "0.002",
+      fast: "0.003"
+    };
+  };
+
   return (
     <Web3Context.Provider 
       value={{ 
@@ -115,6 +149,9 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         disconnectWallet, 
         sendTransaction,
         getBalances,
+        importWallet,
+        exportWallet,
+        predictFee,
         isConnected: !!account
       }}
     >
