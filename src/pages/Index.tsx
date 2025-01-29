@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { 
   ArrowRight, Shield, Globe, Coins, Zap, 
   Wallet, Receipt, CreditCard, UserCircle, 
-  KeyRound, QrCode, Brain, Exchange
+  KeyRound, QrCode, Brain, ArrowLeftRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -66,7 +66,7 @@ const Index = () => {
               <CardContent className="pt-6">
                 <Link to="/exchange" className="block">
                   <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <Exchange className="w-6 h-6 text-primary" />
+                    <ArrowLeftRight className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="font-semibold mb-2">Crypto Exchange</h3>
                   <p className="text-gray-600">Real-time crypto-to-crypto conversion with AI optimization</p>
