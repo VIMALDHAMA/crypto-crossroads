@@ -2,7 +2,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/compon
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Shield, BarChart2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,8 @@ const Navbar = () => {
     { path: "/exchange", label: "Exchange", protected: true },
     { path: "/assets", label: "Assets", protected: true },
     { path: "/transactions", label: "Transactions", protected: true },
+    { path: "/security", label: "Security", icon: Shield, protected: true },
+    { path: "/analytics", label: "Analytics", icon: BarChart2, protected: true },
   ];
 
   const handleLogout = () => {
@@ -49,6 +51,7 @@ const Navbar = () => {
                         location.pathname === item.path && "bg-accent/50"
                       )}
                     >
+                      {item.icon && <item.icon className="w-4 h-4 mr-2" />}
                       {item.label}
                     </Link>
                   </NavigationMenuItem>
