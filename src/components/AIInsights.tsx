@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, TrendingUp, AlertTriangle } from "lucide-react";
+import { Brain, TrendingUp, AlertTriangle, Shield } from "lucide-react";
 
-interface AIInsight {
+export interface AIInsight {
   type: 'recommendation' | 'alert' | 'prediction';
   title: string;
   description: string;
@@ -26,19 +26,20 @@ export function AIInsights({ insights }: AIInsightsProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>AI Insights</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-xl font-bold">AI Insights</CardTitle>
+        <Shield className="w-5 h-5 text-primary" />
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {insights.map((insight, index) => (
-            <div key={index} className="flex items-start space-x-4 p-4 bg-secondary/10 rounded-lg">
+            <div key={index} className="flex items-start space-x-4 p-4 bg-secondary/10 rounded-lg hover:bg-secondary/20 transition-colors">
               <div className="mt-1">{getIcon(insight.type)}</div>
-              <div>
-                <h4 className="font-semibold">{insight.title}</h4>
+              <div className="flex-1">
+                <h4 className="font-semibold text-primary">{insight.title}</h4>
                 <p className="text-sm text-muted-foreground">{insight.description}</p>
                 <span className="text-xs text-muted-foreground mt-2 block">
-                  {insight.timestamp}
+                  {new Date(insight.timestamp).toLocaleString()}
                 </span>
               </div>
             </div>

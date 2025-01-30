@@ -9,8 +9,9 @@ import { Link } from "react-router-dom";
 import { AIInsights } from "@/components/AIInsights";
 import { AICopilot } from "@/components/AICopilot";
 import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
+import { AIInsight } from "@/components/AIInsights";
 
-const mockInsights = [
+const mockInsights: AIInsight[] = [
   {
     type: 'alert',
     title: 'Unusual Activity Detected',
