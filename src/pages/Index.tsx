@@ -3,9 +3,33 @@ import { Card, CardContent } from "@/components/ui/card";
 import { 
   ArrowRight, Shield, Globe, Coins, 
   Wallet, Receipt, CreditCard, 
-  BarChart3, ArrowLeftRight
+  BarChart3, ArrowLeftRight, Bot
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { AIInsights } from "@/components/AIInsights";
+import { AICopilot } from "@/components/AICopilot";
+import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
+
+const mockInsights = [
+  {
+    type: 'alert',
+    title: 'Unusual Activity Detected',
+    description: 'Multiple high-value transactions detected in the last hour. Consider reviewing for security.',
+    timestamp: new Date().toISOString()
+  },
+  {
+    type: 'recommendation',
+    title: 'Portfolio Diversification',
+    description: 'Your portfolio is heavily concentrated in crypto. Consider diversifying into different asset classes.',
+    timestamp: new Date().toISOString()
+  },
+  {
+    type: 'prediction',
+    title: 'Market Trend Analysis',
+    description: 'Based on current trends, consider increasing your position in stable coins.',
+    timestamp: new Date().toISOString()
+  }
+];
 
 const Index = () => {
   return (
@@ -32,8 +56,22 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* AI Insights & Analytics Section */}
       <section className="bg-muted/50 py-20">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-12">AI-Powered Insights</h2>
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <AIInsights insights={mockInsights} />
+            <AICopilot />
+          </div>
+          <div className="mt-8">
+            <PortfolioAnalytics />
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20">
         <div className="container">
           <h2 className="text-3xl font-bold text-center mb-12">Platform Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -102,16 +140,14 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            {/* Payments */}
+            {/* AI Assistant */}
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="pt-6">
-                <Link to="/payment" className="block">
-                  <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                    <CreditCard className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-xl mb-2">Crypto Payments</h3>
-                  <p className="text-gray-600">Send and receive crypto payments securely</p>
-                </Link>
+                <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
+                  <Bot className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-xl mb-2">AI Copilot</h3>
+                <p className="text-gray-600">Get personalized insights and recommendations</p>
               </CardContent>
             </Card>
           </div>
