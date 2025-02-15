@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,6 +51,28 @@ export function AICopilot() {
     await handleSend(simulatedText);
   };
 
+  const processMessage = async (text: string, type: 'text' | 'portfolio' | 'security' | 'file' = 'text') => {
+    try {
+      const response = await fetch('/api/ai-insights', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: text,
+          type,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to get AI response');
+      const data = await response.json();
+      return data.response;
+    } catch (error) {
+      console.error('Error processing message:', error);
+      return 'I apologize, but I encountered an error processing your request. Please try again.';
+    }
+  };
+
   const handleSend = async (text: string = input) => {
     if (!text.trim()) return;
 
@@ -64,7 +85,7 @@ export function AICopilot() {
 
     const newAssistantMessage: Message = {
       role: 'assistant',
-      content: 'Analyzing your request with quantum-resistant encryption...',
+      content: 'Processing with quantum-resistant encryption...',
       timestamp: new Date(),
       type: 'text'
     };
@@ -72,54 +93,20 @@ export function AICopilot() {
     setMessages([...messages, newUserMessage, newAssistantMessage]);
     setInput('');
 
-    // Simulate AI response with different types of insights
-    setTimeout(() => {
-      let response: Message;
+    const messageType = text.toLowerCase().includes('portfolio') ? 'portfolio' 
+                     : text.toLowerCase().includes('security') ? 'security'
+                     : 'text';
 
-      if (text.toLowerCase().includes('portfolio')) {
-        response = {
-          role: 'assistant',
-          content: `Portfolio Analysis:\n
-          1. Risk Level: Moderate\n
-          2. Diversification Score: 8.5/10\n
-          3. Recommendations:\n
-             - Consider increasing allocation in quantum-resistant cryptocurrencies\n
-             - Rebalance portfolio to maintain optimal risk level\n
-             - Look into emerging blockchain technologies`,
-          timestamp: new Date(),
-          type: 'portfolio'
-        };
-      } else if (text.toLowerCase().includes('security')) {
-        response = {
-          role: 'assistant',
-          content: `Security Status:\n
-          1. Quantum Resistance: Active\n
-          2. Encryption: Post-Quantum Cryptography Enabled\n
-          3. Last Security Scan: Clean\n
-          4. Recommendations:\n
-             - Enable two-factor authentication\n
-             - Regular security audits\n
-             - Keep recovery phrases in secure storage`,
-          timestamp: new Date(),
-          type: 'security'
-        };
-      } else {
-        response = {
-          role: 'assistant',
-          content: `Based on your request, here are my insights:\n
-          1. Market Analysis: Bullish trends detected\n
-          2. Risk Assessment: Low exposure to volatile assets\n
-          3. Recommendations:\n
-             - Consider DeFi opportunities\n
-             - Monitor quantum computing developments\n
-             - Regular portfolio rebalancing`,
-          timestamp: new Date(),
-          type: 'text'
-        };
-      }
+    const aiResponse = await processMessage(text, messageType);
+    
+    const finalResponse: Message = {
+      role: 'assistant',
+      content: aiResponse,
+      timestamp: new Date(),
+      type: messageType
+    };
 
-      setMessages(prev => [...prev.slice(0, -1), response]);
-    }, 1000);
+    setMessages(prev => [...prev.slice(0, -1), finalResponse]);
   };
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,28 +115,32 @@ export function AICopilot() {
 
     setIsProcessingFile(true);
     try {
-      // Here we would normally process the file with AI
-      // For now, we'll simulate file analysis
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const reader = new FileReader();
+      
+      reader.onload = async (e) => {
+        const content = e.target?.result as string;
+        const filePrompt = `Analyze this ${file.type} file content: ${content.slice(0, 1000)}...`;
+        const analysis = await processMessage(filePrompt, 'file');
 
-      const newMessage: Message = {
-        role: 'assistant',
-        content: `File Analysis Complete: ${file.name}\n
-        1. Document Type: ${file.type}\n
-        2. Size: ${(file.size / 1024).toFixed(2)} KB\n
-        3. Recommendations:\n
-           - File appears to be a ${file.type.split('/')[1]}\n
-           - Contains potential investment information\n
-           - Suggesting automated portfolio adjustments`,
-        timestamp: new Date(),
-        type: 'file'
+        const newMessage: Message = {
+          role: 'assistant',
+          content: analysis,
+          timestamp: new Date(),
+          type: 'file'
+        };
+
+        setMessages(prev => [...prev, newMessage]);
+        toast({
+          title: "File Analysis Complete",
+          description: `${file.name} has been processed with quantum-resistant encryption.`,
+        });
       };
 
-      setMessages(prev => [...prev, newMessage]);
-      toast({
-        title: "File Analysis Complete",
-        description: `${file.name} has been processed with quantum-resistant encryption.`,
-      });
+      reader.onerror = () => {
+        throw new Error('Failed to read file');
+      };
+
+      reader.readAsText(file);
     } catch (error) {
       toast({
         variant: "destructive",

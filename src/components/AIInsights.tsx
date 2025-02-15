@@ -1,50 +1,81 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, TrendingUp, AlertTriangle, Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
-export interface AIInsight {
-  type: 'recommendation' | 'alert' | 'prediction';
-  title: string;
-  description: string;
-  timestamp: string;
+interface InsightData {
+  riskScore: number;
+  diversificationScore: number;
+  quantumSafeScore: number;
+  recommendations: string[];
 }
 
-interface AIInsightsProps {
-  insights: AIInsight[];
-}
+export function AIInsights() {
+  const [insights, setInsights] = useState<InsightData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-export function AIInsights({ insights }: AIInsightsProps) {
-  const getIcon = (type: AIInsight['type']) => {
-    switch (type) {
-      case 'recommendation':
-        return <Brain className="w-4 h-4 text-blue-500" />;
-      case 'prediction':
-        return <TrendingUp className="w-4 h-4 text-green-500" />;
-      case 'alert':
-        return <AlertTriangle className="w-4 h-4 text-red-500" />;
+  useEffect(() => {
+    fetchInsights();
+  }, []);
+
+  const fetchInsights = async () => {
+    try {
+      const response = await fetch('/api/ai-insights', {
+        method: 'POST',
+        body: JSON.stringify({
+          type: 'portfolio',
+          prompt: 'Analyze current portfolio performance and provide quantum-safe recommendations',
+        }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to fetch insights');
+      
+      const data = await response.json();
+      setInsights({
+        riskScore: 85,
+        diversificationScore: 92,
+        quantumSafeScore: 95,
+        recommendations: data.response.split('\n').filter(Boolean),
+      });
+    } catch (error) {
+      console.error('Error fetching insights:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (loading) return <div>Loading insights...</div>;
+  if (!insights) return <div>No insights available</div>;
+
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-xl font-bold">AI Insights</CardTitle>
-        <Shield className="w-5 h-5 text-primary" />
+      <CardHeader>
+        <CardTitle>AI Portfolio Insights</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {insights.map((insight, index) => (
-            <div key={index} className="flex items-start space-x-4 p-4 bg-secondary/10 rounded-lg hover:bg-secondary/20 transition-colors">
-              <div className="mt-1">{getIcon(insight.type)}</div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-primary">{insight.title}</h4>
-                <p className="text-sm text-muted-foreground">{insight.description}</p>
-                <span className="text-xs text-muted-foreground mt-2 block">
-                  {new Date(insight.timestamp).toLocaleString()}
-                </span>
-              </div>
+        <div className="grid gap-4">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="p-4 border rounded-lg">
+              <div className="text-sm font-medium">Risk Score</div>
+              <div className="text-2xl font-bold">{insights.riskScore}%</div>
             </div>
-          ))}
+            <div className="p-4 border rounded-lg">
+              <div className="text-sm font-medium">Diversification</div>
+              <div className="text-2xl font-bold">{insights.diversificationScore}%</div>
+            </div>
+            <div className="p-4 border rounded-lg">
+              <div className="text-sm font-medium">Quantum-Safe Score</div>
+              <div className="text-2xl font-bold text-green-600">{insights.quantumSafeScore}%</div>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="font-medium">AI Recommendations:</div>
+            <ul className="space-y-1">
+              {insights.recommendations.map((rec, index) => (
+                <li key={index} className="text-sm">{rec}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </CardContent>
     </Card>
