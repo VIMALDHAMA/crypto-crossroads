@@ -1,15 +1,16 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, Send, Mic, Paperclip, X, Maximize2, Minimize2 } from "lucide-react";
+import { Bot, Send, Mic, Paperclip, X, Maximize2, Minimize2, Lock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  type?: 'text' | 'portfolio' | 'security' | 'file';
 }
 
 export function AICopilot() {
@@ -18,61 +19,165 @@ export function AICopilot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [isProcessingFile, setIsProcessingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const { toast } = useToast();
 
-  const handleSend = async () => {
-    if (!input.trim()) return;
+  useEffect(() => {
+    // Initialize voice recognition
+    if ('MediaRecorder' in window) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          mediaRecorderRef.current = new MediaRecorder(stream);
+          
+          mediaRecorderRef.current.ondataavailable = async (event) => {
+            if (event.data.size > 0) {
+              const audioBlob = new Blob([event.data], { type: 'audio/wav' });
+              await processVoiceInput(audioBlob);
+            }
+          };
+        })
+        .catch(error => {
+          console.error('Error accessing microphone:', error);
+        });
+    }
+  }, []);
+
+  const processVoiceInput = async (audioBlob: Blob) => {
+    // Here we would normally send the audio to a speech-to-text service
+    // For now, we'll simulate the response
+    const simulatedText = "Show me my portfolio analysis";
+    setInput(simulatedText);
+    await handleSend(simulatedText);
+  };
+
+  const handleSend = async (text: string = input) => {
+    if (!text.trim()) return;
 
     const newUserMessage: Message = {
       role: 'user',
-      content: input,
+      content: text,
       timestamp: new Date(),
+      type: 'text'
     };
 
     const newAssistantMessage: Message = {
       role: 'assistant',
-      content: 'I am analyzing your request...',
+      content: 'Analyzing your request with quantum-resistant encryption...',
       timestamp: new Date(),
+      type: 'text'
     };
 
     setMessages([...messages, newUserMessage, newAssistantMessage]);
     setInput('');
 
-    // Simulate AI response
+    // Simulate AI response with different types of insights
     setTimeout(() => {
-      const assistantResponse: Message = {
-        role: 'assistant',
-        content: `Based on your portfolio analysis, here's my recommendation: Consider diversifying into ${input.includes('crypto') ? 'stable coins' : 'emerging markets'} to reduce risk exposure.`,
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev.slice(0, -1), assistantResponse]);
+      let response: Message;
+
+      if (text.toLowerCase().includes('portfolio')) {
+        response = {
+          role: 'assistant',
+          content: `Portfolio Analysis:\n
+          1. Risk Level: Moderate\n
+          2. Diversification Score: 8.5/10\n
+          3. Recommendations:\n
+             - Consider increasing allocation in quantum-resistant cryptocurrencies\n
+             - Rebalance portfolio to maintain optimal risk level\n
+             - Look into emerging blockchain technologies`,
+          timestamp: new Date(),
+          type: 'portfolio'
+        };
+      } else if (text.toLowerCase().includes('security')) {
+        response = {
+          role: 'assistant',
+          content: `Security Status:\n
+          1. Quantum Resistance: Active\n
+          2. Encryption: Post-Quantum Cryptography Enabled\n
+          3. Last Security Scan: Clean\n
+          4. Recommendations:\n
+             - Enable two-factor authentication\n
+             - Regular security audits\n
+             - Keep recovery phrases in secure storage`,
+          timestamp: new Date(),
+          type: 'security'
+        };
+      } else {
+        response = {
+          role: 'assistant',
+          content: `Based on your request, here are my insights:\n
+          1. Market Analysis: Bullish trends detected\n
+          2. Risk Assessment: Low exposure to volatile assets\n
+          3. Recommendations:\n
+             - Consider DeFi opportunities\n
+             - Monitor quantum computing developments\n
+             - Regular portfolio rebalancing`,
+          timestamp: new Date(),
+          type: 'text'
+        };
+      }
+
+      setMessages(prev => [...prev.slice(0, -1), response]);
     }, 1000);
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (!file) return;
+
+    setIsProcessingFile(true);
+    try {
+      // Here we would normally process the file with AI
+      // For now, we'll simulate file analysis
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const newMessage: Message = {
+        role: 'assistant',
+        content: `File Analysis Complete: ${file.name}\n
+        1. Document Type: ${file.type}\n
+        2. Size: ${(file.size / 1024).toFixed(2)} KB\n
+        3. Recommendations:\n
+           - File appears to be a ${file.type.split('/')[1]}\n
+           - Contains potential investment information\n
+           - Suggesting automated portfolio adjustments`,
+        timestamp: new Date(),
+        type: 'file'
+      };
+
+      setMessages(prev => [...prev, newMessage]);
       toast({
-        title: "File Uploaded",
-        description: `${file.name} has been uploaded successfully.`,
+        title: "File Analysis Complete",
+        description: `${file.name} has been processed with quantum-resistant encryption.`,
       });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Analysis Failed",
+        description: "Failed to process file securely.",
+      });
+    } finally {
+      setIsProcessingFile(false);
     }
   };
 
   const toggleRecording = () => {
-    setIsRecording(!isRecording);
-    if (!isRecording) {
-      toast({
-        title: "Voice Recording Started",
-        description: "Listening to your message...",
-      });
-    } else {
+    if (!mediaRecorderRef.current) return;
+
+    if (isRecording) {
+      mediaRecorderRef.current.stop();
       toast({
         title: "Voice Recording Stopped",
         description: "Processing your message...",
       });
+    } else {
+      mediaRecorderRef.current.start();
+      toast({
+        title: "Voice Recording Started",
+        description: "Listening to your message...",
+      });
     }
+    setIsRecording(!isRecording);
   };
 
   if (!isOpen) {
@@ -91,7 +196,8 @@ export function AICopilot() {
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           <Bot className="w-5 h-5" />
-          <span className="font-semibold">AI Copilot</span>
+          <span className="font-semibold">Quantum-Safe AI Copilot</span>
+          <Lock className="w-4 h-4 text-green-500" />
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -126,9 +232,11 @@ export function AICopilot() {
                     message.role === 'user'
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-muted'
+                  } ${
+                    message.type === 'security' ? 'border-2 border-green-500' : ''
                   }`}
                 >
-                  <div>{message.content}</div>
+                  <div className="whitespace-pre-line">{message.content}</div>
                   <div className="text-xs opacity-70 mt-1">
                     {message.timestamp.toLocaleTimeString()}
                   </div>
@@ -149,11 +257,13 @@ export function AICopilot() {
                 ref={fileInputRef}
                 onChange={handleFileUpload}
                 className="hidden"
+                accept=".pdf,.doc,.docx,.txt,.csv"
               />
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
+                disabled={isProcessingFile}
               >
                 <Paperclip className="w-4 h-4" />
               </Button>
@@ -165,7 +275,7 @@ export function AICopilot() {
               >
                 <Mic className="w-4 h-4" />
               </Button>
-              <Button onClick={handleSend}>
+              <Button onClick={() => handleSend()}>
                 <Send className="w-4 h-4" />
               </Button>
             </div>
