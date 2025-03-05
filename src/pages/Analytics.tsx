@@ -1,22 +1,10 @@
+
 import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
 import { AIInsights } from "@/components/AIInsights";
+import { ChartPatternRecognition } from "@/components/ChartPatternRecognition";
+import { SentimentAnalysis } from "@/components/SentimentAnalysis";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart2, TrendingUp, PieChart } from "lucide-react";
-
-const mockInsights = [
-  {
-    type: "prediction" as const,
-    title: "Market Trend Analysis",
-    description: "Bullish indicators detected for Layer 2 solutions. Consider exploring Polygon investments.",
-    timestamp: new Date().toISOString()
-  },
-  {
-    type: "recommendation" as const,
-    title: "Portfolio Optimization",
-    description: "Market analysis suggests increasing allocation in Ethereum and Solana. Consider rebalancing.",
-    timestamp: new Date().toISOString()
-  }
-];
+import { BarChart2, TrendingUp, PieChart, Brain } from "lucide-react";
 
 const Analytics = () => {
   return (
@@ -56,7 +44,10 @@ const Analytics = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Risk Score</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="w-5 h-5" />
+                Risk Score
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold">Moderate</p>
@@ -67,7 +58,12 @@ const Analytics = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           <PortfolioAnalytics />
-          <AIInsights insights={mockInsights} />
+          <AIInsights />
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6">
+          <ChartPatternRecognition />
+          <SentimentAnalysis />
         </div>
       </div>
     </div>

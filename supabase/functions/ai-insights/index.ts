@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { prompt, type } = await req.json();
+    const { prompt, type, imageUrl, chartData, newsText } = await req.json();
     
     let systemPrompt = '';
     switch (type) {
@@ -28,8 +28,50 @@ serve(async (req) => {
       case 'file':
         systemPrompt = 'You are a secure file analysis expert. Analyze documents and provide insights while maintaining quantum-resistant security standards.';
         break;
+      case 'sentiment':
+        systemPrompt = 'You are a financial sentiment analysis expert. Analyze financial news and social media to provide sentiment insights.';
+        break;
+      case 'pattern':
+        systemPrompt = 'You are a technical chart pattern recognition expert. Identify patterns in financial charts and provide trading insights.';
+        break;
+      case 'multimodal':
+        systemPrompt = 'You are a multimodal financial analysis expert. Combine text, image, and numerical data to provide comprehensive financial insights.';
+        break;
       default:
         systemPrompt = 'You are a quantum-safe AI assistant providing secure financial insights.';
+    }
+
+    // Build the user message content
+    let messageContent = prompt || '';
+    
+    // For multimodal requests with images
+    const messages = [
+      { role: 'system', content: systemPrompt }
+    ];
+    
+    if (type === 'multimodal' && imageUrl) {
+      messages.push({
+        role: 'user',
+        content: [
+          { type: 'text', text: messageContent },
+          { type: 'image_url', image_url: { url: imageUrl } }
+        ]
+      });
+    } else if (type === 'sentiment' && newsText) {
+      // For sentiment analysis with news text
+      messages.push({
+        role: 'user', 
+        content: `Analyze the sentiment of this financial news: ${newsText}\n\n${messageContent}`
+      });
+    } else if (type === 'pattern' && chartData) {
+      // For pattern recognition with chart data
+      messages.push({
+        role: 'user',
+        content: `Analyze this financial chart data for patterns: ${JSON.stringify(chartData)}\n\n${messageContent}`
+      });
+    } else {
+      // Standard text-only prompt
+      messages.push({ role: 'user', content: messageContent });
     }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -39,11 +81,8 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: prompt }
-        ],
+        model: type === 'multimodal' ? 'gpt-4o' : 'gpt-4o-mini',
+        messages: messages,
       }),
     });
 

@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 
 interface InsightData {
   riskScore: number;
@@ -22,6 +21,9 @@ export function AIInsights() {
     try {
       const response = await fetch('/api/ai-insights', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           type: 'portfolio',
           prompt: 'Analyze current portfolio performance and provide quantum-safe recommendations',
