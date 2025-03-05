@@ -1,11 +1,13 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeftRight, Coins, TrendingUp } from "lucide-react";
+import { ArrowLeftRight, Coins, TrendingUp, Brain } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWeb3 } from "@/lib/web3";
+import { Link } from "react-router-dom";
 
 interface ExchangeRate {
   pair: string;
@@ -131,30 +133,65 @@ export default function Exchange() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Market Rates</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {mockExchangeRates.map((rate) => (
-                <div key={rate.pair} className="flex items-center justify-between p-2 rounded-lg bg-secondary">
-                  <div className="flex items-center gap-2">
-                    <Coins className="h-4 w-4" />
-                    <span>{rate.pair}</span>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Market Rates</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {mockExchangeRates.map((rate) => (
+                  <div key={rate.pair} className="flex items-center justify-between p-2 rounded-lg bg-secondary">
+                    <div className="flex items-center gap-2">
+                      <Coins className="h-4 w-4" />
+                      <span>{rate.pair}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <span className="font-medium">{rate.rate}</span>
+                      <span className={`flex items-center ${rate.change24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        <TrendingUp className={`h-4 w-4 ${rate.change24h < 0 ? 'rotate-180' : ''}`} />
+                        {Math.abs(rate.change24h)}%
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="font-medium">{rate.rate}</span>
-                    <span className={`flex items-center ${rate.change24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      <TrendingUp className={`h-4 w-4 ${rate.change24h < 0 ? 'rotate-180' : ''}`} />
-                      {Math.abs(rate.change24h)}%
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="h-5 w-5" />
+                AI Trading
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Boost your trading with our new AI-powered trading agents that use reinforcement learning to optimize trading strategies.
+              </p>
+              <ul className="space-y-2 text-sm mb-4">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Deep Q-Networks (DQN) for autonomous trading
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Proximal Policy Optimization (PPO) algorithms
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                  Real-time backtesting engine
+                </li>
+              </ul>
+              <Link to="/analytics">
+                <Button className="w-full">
+                  Explore AI Trading
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

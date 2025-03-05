@@ -7,7 +7,7 @@ import {
   AlertTriangle, TrendingUp, Lock
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AIInsights, type AIInsight } from "@/components/AIInsights";
+import { AIInsights } from "@/components/AIInsights";
 import { AICopilot } from "@/components/AICopilot";
 import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
 import { motion, MotionConfig } from "framer-motion";
@@ -128,7 +128,7 @@ const Index = () => {
               <p className="text-xl text-gray-600">Real-time analytics and smart recommendations for your portfolio</p>
             </motion.div>
             <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <AIInsights insights={mockInsights} />
+              <AIInsights />
               <PortfolioAnalytics />
             </div>
           </div>
