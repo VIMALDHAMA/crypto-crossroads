@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { prompt, type, imageUrl, chartData, newsText } = await req.json();
+    const { prompt, type, imageUrl, chartData, newsText, contractAddress, transactionData } = await req.json();
     
     let systemPrompt = '';
     switch (type) {
@@ -24,6 +24,12 @@ serve(async (req) => {
         break;
       case 'security':
         systemPrompt = 'You are a quantum security expert. Provide post-quantum cryptography insights and security recommendations.';
+        break;
+      case 'contract':
+        systemPrompt = 'You are a smart contract security auditor. Analyze smart contracts for vulnerabilities and provide remediation advice.';
+        break;
+      case 'fraud':
+        systemPrompt = 'You are a blockchain fraud detection expert. Analyze transaction patterns to identify suspicious activities.';
         break;
       case 'file':
         systemPrompt = 'You are a secure file analysis expert. Analyze documents and provide insights while maintaining quantum-resistant security standards.';
@@ -36,6 +42,9 @@ serve(async (req) => {
         break;
       case 'multimodal':
         systemPrompt = 'You are a multimodal financial analysis expert. Combine text, image, and numerical data to provide comprehensive financial insights.';
+        break;
+      case 'voice':
+        systemPrompt = 'You are a voice-powered trading assistant. Respond to voice commands and provide real-time trading assistance.';
         break;
       default:
         systemPrompt = 'You are a quantum-safe AI assistant providing secure financial insights.';
@@ -68,6 +77,18 @@ serve(async (req) => {
       messages.push({
         role: 'user',
         content: `Analyze this financial chart data for patterns: ${JSON.stringify(chartData)}\n\n${messageContent}`
+      });
+    } else if (type === 'contract' && contractAddress) {
+      // For smart contract audit
+      messages.push({
+        role: 'user',
+        content: `Analyze this smart contract at address ${contractAddress} for security vulnerabilities: ${messageContent}`
+      });
+    } else if (type === 'fraud' && transactionData) {
+      // For transaction fraud detection
+      messages.push({
+        role: 'user',
+        content: `Analyze these blockchain transactions for suspicious patterns: ${JSON.stringify(transactionData)}\n\n${messageContent}`
       });
     } else {
       // Standard text-only prompt

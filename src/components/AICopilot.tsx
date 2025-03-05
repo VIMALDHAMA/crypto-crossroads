@@ -2,14 +2,19 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, Send, Mic, Paperclip, X, Maximize2, Minimize2, Lock } from "lucide-react";
+import { 
+  Bot, Send, Mic, Paperclip, X, Maximize2, 
+  Minimize2, Lock, AlertTriangle, Shield, 
+  Code, LineChart
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
-  type?: 'text' | 'portfolio' | 'security' | 'file';
+  type?: 'text' | 'portfolio' | 'security' | 'file' | 'voice' | 'contract';
 }
 
 export function AICopilot() {
@@ -24,7 +29,6 @@ export function AICopilot() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Initialize voice recognition
     if ('MediaRecorder' in window) {
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
@@ -44,15 +48,31 @@ export function AICopilot() {
   }, []);
 
   const processVoiceInput = async (audioBlob: Blob) => {
-    // Here we would normally send the audio to a speech-to-text service
-    // For now, we'll simulate the response
     const simulatedText = "Show me my portfolio analysis";
     setInput(simulatedText);
     await handleSend(simulatedText);
   };
 
-  const processMessage = async (text: string, type: 'text' | 'portfolio' | 'security' | 'file' = 'text') => {
+  const processMessage = async (text: string, type: 'text' | 'portfolio' | 'security' | 'file' | 'voice' | 'contract' = 'text') => {
     try {
+      if (text.toLowerCase().includes('fraud') || 
+          text.toLowerCase().includes('suspicious') || 
+          text.toLowerCase().includes('transaction security')) {
+        return "I've detected your question is about blockchain security. Would you like to: \n\n1. Run a fraud detection analysis on recent transactions? \n2. Audit a specific smart contract? \n\nYou can navigate to the Security section for detailed analysis.";
+      }
+      
+      if (text.toLowerCase().includes('smart contract') || 
+          text.toLowerCase().includes('audit') || 
+          text.toLowerCase().includes('vulnerability')) {
+        return "Smart contract security is crucial. Our AI-powered audit system can:\n\n1. Detect vulnerabilities and security issues\n2. Provide risk scores and verification\n3. Apply zero-knowledge proofs for privacy\n\nYou can run a full audit in the Security section.";
+      }
+      
+      if (text.toLowerCase().includes('voice') || 
+          text.toLowerCase().includes('speak') || 
+          text.toLowerCase().includes('talk')) {
+        return "I can assist you with voice commands in the Analytics section. The voice assistant can:\n\n1. Process natural language trading commands\n2. Provide market analysis through speech\n3. Set alerts and execute trades\n\nTry it in the Analytics > Voice Assistant tab.";
+      }
+
       const response = await fetch('/api/ai-insights', {
         method: 'POST',
         headers: {
@@ -93,9 +113,12 @@ export function AICopilot() {
     setMessages([...messages, newUserMessage, newAssistantMessage]);
     setInput('');
 
-    const messageType = text.toLowerCase().includes('portfolio') ? 'portfolio' 
-                     : text.toLowerCase().includes('security') ? 'security'
-                     : 'text';
+    const messageType = text.toLowerCase().includes('portfolio') ? 'portfolio'
+                      : text.toLowerCase().includes('security') ? 'security'
+                      : text.toLowerCase().includes('fraud') ? 'security'
+                      : text.toLowerCase().includes('smart contract') ? 'contract'
+                      : text.toLowerCase().includes('voice') ? 'voice'
+                      : 'text';
 
     const aiResponse = await processMessage(text, messageType);
     
@@ -171,6 +194,84 @@ export function AICopilot() {
     setIsRecording(!isRecording);
   };
 
+  const renderMessage = (message: Message, index: number) => {
+    const isUser = message.role === 'user';
+    
+    const getSpecialContent = () => {
+      if (message.role === 'assistant') {
+        if (message.type === 'security' || message.type === 'contract') {
+          return (
+            <div>
+              <div className="whitespace-pre-line">{message.content}</div>
+              <div className="mt-2 text-xs">
+                <Link to="/security" className="inline-flex items-center gap-1 text-primary hover:underline">
+                  <Shield className="w-3 h-3" />
+                  Open Security Center
+                </Link>
+              </div>
+            </div>
+          );
+        }
+        
+        if (message.type === 'voice') {
+          return (
+            <div>
+              <div className="whitespace-pre-line">{message.content}</div>
+              <div className="mt-2 text-xs">
+                <Link to="/analytics" className="inline-flex items-center gap-1 text-primary hover:underline">
+                  <Mic className="w-3 h-3" />
+                  Try Voice Assistant
+                </Link>
+              </div>
+            </div>
+          );
+        }
+        
+        if (message.type === 'portfolio') {
+          return (
+            <div>
+              <div className="whitespace-pre-line">{message.content}</div>
+              <div className="mt-2 text-xs">
+                <Link to="/analytics" className="inline-flex items-center gap-1 text-primary hover:underline">
+                  <LineChart className="w-3 h-3" />
+                  View Analytics
+                </Link>
+              </div>
+            </div>
+          );
+        }
+      }
+      
+      return <div className="whitespace-pre-line">{message.content}</div>;
+    };
+    
+    return (
+      <div
+        key={index}
+        className={`flex ${
+          isUser ? 'justify-end' : 'justify-start'
+        }`}
+      >
+        <div
+          className={`max-w-[80%] rounded-lg p-3 ${
+            isUser
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-muted'
+          } ${
+            message.type === 'security' || message.type === 'contract' ? 'border-l-4 border-green-500' : 
+            message.type === 'voice' ? 'border-l-4 border-blue-500' :
+            message.type === 'portfolio' ? 'border-l-4 border-amber-500' : ''
+          }`}
+        >
+          {getSpecialContent()}
+          <div className="text-xs opacity-70 mt-1">
+            {message.timestamp.toLocaleTimeString()}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (!isOpen) {
     return (
       <Button
@@ -211,36 +312,14 @@ export function AICopilot() {
       {!isMinimized && (
         <>
           <CardContent className="flex-1 overflow-y-auto space-y-4 p-4 h-[calc(600px-8rem)]">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted'
-                  } ${
-                    message.type === 'security' ? 'border-2 border-green-500' : ''
-                  }`}
-                >
-                  <div className="whitespace-pre-line">{message.content}</div>
-                  <div className="text-xs opacity-70 mt-1">
-                    {message.timestamp.toLocaleTimeString()}
-                  </div>
-                </div>
-              </div>
-            ))}
+            {messages.map((message, index) => renderMessage(message, index))}
           </CardContent>
           <div className="p-4 border-t">
             <div className="flex gap-2 items-center">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask for insights or recommendations..."
+                placeholder="Ask about security, trading, or use voice..."
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               />
               <input

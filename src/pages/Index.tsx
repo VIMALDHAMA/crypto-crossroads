@@ -12,6 +12,13 @@ import { AICopilot } from "@/components/AICopilot";
 import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
 import { motion, MotionConfig } from "framer-motion";
 
+interface AIInsight {
+  type: "alert" | "recommendation" | "prediction";
+  title: string;
+  description: string;
+  timestamp: string;
+}
+
 const mockInsights: AIInsight[] = [
   {
     type: "alert",
