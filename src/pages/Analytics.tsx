@@ -5,9 +5,11 @@ import { ChartPatternRecognition } from "@/components/ChartPatternRecognition";
 import { SentimentAnalysis } from "@/components/SentimentAnalysis";
 import { TradingAgent } from "@/components/TradingAgent";
 import { BacktestEngine } from "@/components/BacktestEngine";
+import { QuantumOptimization } from "@/components/QuantumOptimization";
+import { QuantumHFT } from "@/components/QuantumHFT";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart2, TrendingUp, PieChart, Brain, Bot, LineChart } from "lucide-react";
+import { BarChart2, TrendingUp, PieChart, Brain, Bot, LineChart, Cpu } from "lucide-react";
 
 const Analytics = () => {
   return (
@@ -60,11 +62,15 @@ const Analytics = () => {
         </div>
 
         <Tabs defaultValue="market" className="space-y-4">
-          <TabsList className="grid grid-cols-2 sm:grid-cols-4 w-full max-w-2xl">
+          <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full max-w-3xl">
             <TabsTrigger value="market">Market Analysis</TabsTrigger>
             <TabsTrigger value="ml" className="flex items-center gap-1">
               <Bot className="h-4 w-4" />
               ML Trading
+            </TabsTrigger>
+            <TabsTrigger value="quantum" className="flex items-center gap-1">
+              <Cpu className="h-4 w-4" />
+              Quantum AI
             </TabsTrigger>
             <TabsTrigger value="patterns">Pattern Recognition</TabsTrigger>
             <TabsTrigger value="sentiment">Sentiment Analysis</TabsTrigger>
@@ -80,6 +86,11 @@ const Analytics = () => {
               <TradingAgent />
               <BacktestEngine />
             </div>
+          </TabsContent>
+          
+          <TabsContent value="quantum" className="grid md:grid-cols-2 gap-6">
+            <QuantumHFT />
+            <QuantumOptimization />
           </TabsContent>
           
           <TabsContent value="patterns" className="grid md:grid-cols-2 gap-6">
