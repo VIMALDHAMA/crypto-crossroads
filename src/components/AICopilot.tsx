@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -5,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { 
   Bot, Send, Mic, Paperclip, X, Maximize2, 
   Minimize2, Lock, AlertTriangle, Shield, 
-  Code, LineChart
+  Code, LineChart, Brain
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
@@ -71,6 +72,12 @@ export function AICopilot() {
           text.toLowerCase().includes('speak') || 
           text.toLowerCase().includes('talk')) {
         return "I can assist you with voice commands in the Analytics section. The voice assistant can:\n\n1. Process natural language trading commands\n2. Provide market analysis through speech\n3. Set alerts and execute trades\n\nTry it in the Analytics > Voice Assistant tab.";
+      }
+      
+      if (text.toLowerCase().includes('deepseek') || 
+          text.toLowerCase().includes('llm') || 
+          text.toLowerCase().includes('ai model')) {
+        return "Our platform integrates DeepSeek LLM for advanced natural language understanding. This helps with:\n\n1. More nuanced financial analysis\n2. Better understanding of complex queries\n3. Enhanced voice interactions\n\nThe system automatically uses DeepSeek for security, fraud, and voice processing tasks.";
       }
 
       const response = await fetch('/api/ai-insights', {
@@ -288,7 +295,7 @@ export function AICopilot() {
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-2">
           <Bot className="w-5 h-5" />
-          <span className="font-semibold">Quantum-Safe AI Copilot</span>
+          <span className="font-semibold">DeepSeek-Powered AI Copilot</span>
           <Lock className="w-4 h-4 text-green-500" />
         </div>
         <div className="flex items-center gap-2">
@@ -312,6 +319,15 @@ export function AICopilot() {
       {!isMinimized && (
         <>
           <CardContent className="flex-1 overflow-y-auto space-y-4 p-4 h-[calc(600px-8rem)]">
+            {messages.length === 0 && (
+              <div className="text-center py-8">
+                <Brain className="w-12 h-12 mx-auto text-primary/30 mb-4" />
+                <h3 className="text-lg font-medium mb-2">DeepSeek LLM Integrated</h3>
+                <p className="text-muted-foreground text-sm max-w-[80%] mx-auto">
+                  Ask me anything about trading, security, or portfolio management with enhanced natural language understanding.
+                </p>
+              </div>
+            )}
             {messages.map((message, index) => renderMessage(message, index))}
           </CardContent>
           <div className="p-4 border-t">

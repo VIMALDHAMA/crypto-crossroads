@@ -12,6 +12,45 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Define the interfaces for the Web Speech API to fix TypeScript errors
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  start(): void;
+  stop(): void;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  onerror: (event: SpeechRecognitionErrorEvent) => void;
+}
+
+interface SpeechRecognitionEvent {
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  [index: number]: SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
+}
+
+interface Window {
+  webkitSpeechRecognition?: new () => SpeechRecognition;
+  SpeechRecognition?: new () => SpeechRecognition;
+}
+
 export function VoiceTradeAssistant() {
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -39,43 +78,45 @@ export function VoiceTradeAssistant() {
   ]);
   
   const audioContextRef = useRef<AudioContext | null>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const { toast } = useToast();
   
   // Initialize speech recognition
   useEffect(() => {
     // Check if the browser supports the Web Speech API
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-      
-      recognitionRef.current.onresult = (event: any) => {
-        const transcript = Array.from(event.results)
-          .map((result: any) => result[0])
-          .map((result: any) => result.transcript)
-          .join('');
+    if (typeof window !== 'undefined') {
+      const SpeechRecognitionClass = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      if (SpeechRecognitionClass) {
+        recognitionRef.current = new SpeechRecognitionClass();
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true;
         
-        setTranscript(transcript);
-      };
-      
-      recognitionRef.current.onerror = (event: any) => {
-        console.error('Speech recognition error', event.error);
-        setIsListening(false);
+        recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+          const transcript = Array.from(event.results)
+            .map((result) => result[0])
+            .map((result) => result.transcript)
+            .join('');
+          
+          setTranscript(transcript);
+        };
+        
+        recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
+          console.error('Speech recognition error', event.error);
+          setIsListening(false);
+          toast({
+            variant: "destructive",
+            title: "Speech Recognition Error",
+            description: `Error: ${event.error}`,
+          });
+        };
+      } else {
+        setVoiceReady(false);
         toast({
           variant: "destructive",
-          title: "Speech Recognition Error",
-          description: `Error: ${event.error}`,
+          title: "Speech Recognition Not Supported",
+          description: "Your browser doesn't support speech recognition",
         });
-      };
-    } else {
-      setVoiceReady(false);
-      toast({
-        variant: "destructive",
-        title: "Speech Recognition Not Supported",
-        description: "Your browser doesn't support speech recognition",
-      });
+      }
     }
     
     return () => {
@@ -108,21 +149,37 @@ export function VoiceTradeAssistant() {
       timestamp: new Date()
     };
     
-    // Simulate AI processing
-    setTimeout(() => {
-      let aiResponse = "";
+    try {
+      // Call the DeepSeek LLM-powered API for more advanced responses
+      const response = await fetch('/api/ai-insights', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          prompt: transcript,
+          type: 'voice',
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to get AI response');
+      const data = await response.json();
       
-      // Generate responses based on keyword matching
-      if (transcript.toLowerCase().includes("portfolio")) {
-        aiResponse = "Your portfolio is currently valued at $124,532.89, up 2.5% this week. Your biggest gainer is Ethereum at +8.2% and your biggest loser is Cardano at -3.1%.";
-      } else if (transcript.toLowerCase().includes("trade") || transcript.toLowerCase().includes("buy") || transcript.toLowerCase().includes("sell")) {
-        aiResponse = "I've analyzed market conditions for this trade. There's a 67% probability of this being profitable based on current trends. Would you like to proceed with the order?";
-      } else if (transcript.toLowerCase().includes("market") || transcript.toLowerCase().includes("trend")) {
-        aiResponse = "Current market sentiment is cautiously bullish. Bitcoin dominance is at 52% with moderate volatility. Institutional inflows have increased by 15% this week.";
-      } else if (transcript.toLowerCase().includes("alert") || transcript.toLowerCase().includes("notification")) {
-        aiResponse = "Alert set successfully. I'll notify you when the specified conditions are met.";
-      } else {
-        aiResponse = "I understand you want information about the crypto market. Based on current data, market conditions are stable with moderate bullish sentiment. Would you like more specific information?";
+      let aiResponse = data.response;
+      
+      // Fallback responses if API fails
+      if (!aiResponse) {
+        if (transcript.toLowerCase().includes("portfolio")) {
+          aiResponse = "Your portfolio is currently valued at $124,532.89, up 2.5% this week. Your biggest gainer is Ethereum at +8.2% and your biggest loser is Cardano at -3.1%.";
+        } else if (transcript.toLowerCase().includes("trade") || transcript.toLowerCase().includes("buy") || transcript.toLowerCase().includes("sell")) {
+          aiResponse = "I've analyzed market conditions for this trade. There's a 67% probability of this being profitable based on current trends. Would you like to proceed with the order?";
+        } else if (transcript.toLowerCase().includes("market") || transcript.toLowerCase().includes("trend")) {
+          aiResponse = "Current market sentiment is cautiously bullish. Bitcoin dominance is at 52% with moderate volatility. Institutional inflows have increased by 15% this week.";
+        } else if (transcript.toLowerCase().includes("alert") || transcript.toLowerCase().includes("notification")) {
+          aiResponse = "Alert set successfully. I'll notify you when the specified conditions are met.";
+        } else {
+          aiResponse = "I understand you want information about the crypto market. Based on current data, market conditions are stable with moderate bullish sentiment. Would you like more specific information?";
+        }
       }
       
       // Update the response
@@ -134,15 +191,22 @@ export function VoiceTradeAssistant() {
       
       // Play the response
       playResponse(aiResponse);
-      
+    } catch (error) {
+      console.error('Error processing voice command:', error);
+      toast({
+        variant: "destructive",
+        title: "Processing Error",
+        description: "Failed to process your voice command",
+      });
+    } finally {
       setIsProcessing(false);
       setTranscript("");
-    }, 1500);
+    }
   };
   
   const playResponse = (text: string) => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      audioContextRef.current = new AudioContext();
     }
     
     // In a real implementation, this would call a Text-to-Speech API

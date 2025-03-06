@@ -3,6 +3,7 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY') || openAIApiKey; // Fallback to OpenAI key if DeepSeek not set
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,18 +19,23 @@ serve(async (req) => {
     const { prompt, type, imageUrl, chartData, newsText, contractAddress, transactionData } = await req.json();
     
     let systemPrompt = '';
+    let useDeepseek = false;
+    
     switch (type) {
       case 'portfolio':
         systemPrompt = 'You are a quantum-safe financial advisor. Analyze portfolios and provide secure recommendations.';
         break;
       case 'security':
         systemPrompt = 'You are a quantum security expert. Provide post-quantum cryptography insights and security recommendations.';
+        useDeepseek = true; // Use DeepSeek for complex security analysis
         break;
       case 'contract':
         systemPrompt = 'You are a smart contract security auditor. Analyze smart contracts for vulnerabilities and provide remediation advice.';
+        useDeepseek = true; // Use DeepSeek for contract analysis
         break;
       case 'fraud':
         systemPrompt = 'You are a blockchain fraud detection expert. Analyze transaction patterns to identify suspicious activities.';
+        useDeepseek = true; // Use DeepSeek for fraud detection
         break;
       case 'file':
         systemPrompt = 'You are a secure file analysis expert. Analyze documents and provide insights while maintaining quantum-resistant security standards.';
@@ -44,7 +50,8 @@ serve(async (req) => {
         systemPrompt = 'You are a multimodal financial analysis expert. Combine text, image, and numerical data to provide comprehensive financial insights.';
         break;
       case 'voice':
-        systemPrompt = 'You are a voice-powered trading assistant. Respond to voice commands and provide real-time trading assistance.';
+        systemPrompt = 'You are a voice-powered trading assistant. Respond to voice commands and provide real-time trading assistance with natural conversational style.';
+        useDeepseek = true; // Use DeepSeek for natural voice conversations
         break;
       default:
         systemPrompt = 'You are a quantum-safe AI assistant providing secure financial insights.';
@@ -95,25 +102,47 @@ serve(async (req) => {
       messages.push({ role: 'user', content: messageContent });
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
+    let apiUrl = 'https://api.openai.com/v1/chat/completions';
+    let headers = {
+      'Authorization': `Bearer ${openAIApiKey}`,
+      'Content-Type': 'application/json',
+    };
+    let requestBody = {
+      model: type === 'multimodal' ? 'gpt-4o' : 'gpt-4o-mini',
+      messages: messages,
+    };
+    
+    // Use DeepSeek LLM for specific types of analysis that benefit from its capabilities
+    if (useDeepseek && deepseekApiKey) {
+      apiUrl = 'https://api.deepseek.com/v1/chat/completions';
+      headers = {
+        'Authorization': `Bearer ${deepseekApiKey}`,
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: type === 'multimodal' ? 'gpt-4o' : 'gpt-4o-mini',
+      };
+      requestBody = {
+        model: 'deepseek-chat',
         messages: messages,
-      }),
+        temperature: 0.7,
+        max_tokens: 2048
+      };
+    }
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(requestBody),
     });
 
     const data = await response.json();
-    const aiResponse = data.choices[0].message.content;
+    const aiResponse = data.choices && data.choices[0] && data.choices[0].message 
+      ? data.choices[0].message.content 
+      : "Sorry, I couldn't process that request.";
 
     return new Response(JSON.stringify({ response: aiResponse }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
+    console.error('AI Insights error:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
