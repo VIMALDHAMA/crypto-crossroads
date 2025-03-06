@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Code, GitBranch, Users, MessageSquare, Star, Box } from "lucide-react";
+import { Code, GitBranch, Users, MessageSquare, Star, Box, FileText } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Contribution = () => {

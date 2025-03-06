@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -6,8 +5,8 @@ import {
   Wallet, Receipt, CreditCard, 
   BarChart3, ArrowLeftRight, Bot,
   AlertTriangle, TrendingUp, Lock,
-  Brain, Fingerprint, FileCode, LineChart,
-  Cpu, Network, VoiceNetwork, ScrollText, ChevronRight
+  Brain, Fingerprint, FileText, LineChart,
+  Cpu, Network, MessageSquare, ScrollText, ChevronRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AIInsights } from "@/components/AIInsights";

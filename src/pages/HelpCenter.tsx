@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { HelpCircle, Search, FileText, Shield, CreditCard } from "lucide-react";
+import { HelpCircle, Search, FileText, Shield, CreditCard, User, ArrowLeftRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HelpCenter = () => {
   const faqItems = [
