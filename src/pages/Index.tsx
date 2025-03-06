@@ -1,44 +1,18 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   ArrowRight, Shield, Globe, Coins, 
   Wallet, Receipt, CreditCard, 
   BarChart3, ArrowLeftRight, Bot,
-  AlertTriangle, TrendingUp, Lock
+  AlertTriangle, TrendingUp, Lock,
+  Brain, Fingerprint, FileCode, LineChart,
+  Cpu, Network, VoiceNetwork, ScrollText, ChevronRight
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AIInsights } from "@/components/AIInsights";
-import { AICopilot } from "@/components/AICopilot";
 import { PortfolioAnalytics } from "@/components/PortfolioAnalytics";
 import { motion, MotionConfig } from "framer-motion";
-
-interface AIInsight {
-  type: "alert" | "recommendation" | "prediction";
-  title: string;
-  description: string;
-  timestamp: string;
-}
-
-const mockInsights: AIInsight[] = [
-  {
-    type: "alert",
-    title: "Suspicious Activity Detected",
-    description: "Multiple high-value transactions detected from unknown IP addresses. Security review recommended.",
-    timestamp: new Date().toISOString()
-  },
-  {
-    type: "recommendation",
-    title: "Portfolio Optimization",
-    description: "Market analysis suggests increasing allocation in Ethereum and Solana. Consider rebalancing.",
-    timestamp: new Date().toISOString()
-  },
-  {
-    type: "prediction",
-    title: "Market Trend Analysis",
-    description: "Bullish indicators detected for Layer 2 solutions. Consider exploring Polygon investments.",
-    timestamp: new Date().toISOString()
-  }
-];
 
 const Index = () => {
   const containerVariants = {
@@ -88,9 +62,10 @@ const Index = () => {
           </motion.div>
         </section>
 
-        {/* Security Features */}
+        {/* AI Technology Section */}
         <section className="bg-muted/30 py-16">
           <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-10">Powered by Advanced AI Technologies</h2>
             <motion.div 
               className="grid md:grid-cols-3 gap-8"
               variants={containerVariants}
@@ -99,30 +74,30 @@ const Index = () => {
             >
               <motion.div variants={itemVariants} className="text-center">
                 <div className="rounded-full bg-primary/10 p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Shield className="w-8 h-8 text-primary" />
+                  <Brain className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Advanced Security</h3>
-                <p className="text-gray-600">Multi-layer protection with real-time fraud detection</p>
+                <h3 className="text-xl font-semibold mb-2">DeepSeek LLM Integration</h3>
+                <p className="text-gray-600">Enhanced natural language understanding for security, fraud detection and voice interactions</p>
               </motion.div>
               <motion.div variants={itemVariants} className="text-center">
                 <div className="rounded-full bg-primary/10 p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Globe className="w-8 h-8 text-primary" />
+                  <Cpu className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Multi-Chain Support</h3>
-                <p className="text-gray-600">Seamless integration with major blockchain networks</p>
+                <h3 className="text-xl font-semibold mb-2">Quantum AI</h3>
+                <p className="text-gray-600">Quantum-resistant algorithms for secure transactions and advanced portfolio optimization</p>
               </motion.div>
               <motion.div variants={itemVariants} className="text-center">
                 <div className="rounded-full bg-primary/10 p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Bot className="w-8 h-8 text-primary" />
+                  <Network className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">AI-Powered Insights</h3>
-                <p className="text-gray-600">Smart recommendations and market analysis</p>
+                <h3 className="text-xl font-semibold mb-2">Graph Neural Networks</h3>
+                <p className="text-gray-600">Blockchain anomaly detection and fraud prevention system</p>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* AI Insights & Analytics Section */}
+        {/* Services Overview */}
         <section className="py-20">
           <div className="container">
             <motion.div 
@@ -131,9 +106,198 @@ const Index = () => {
               initial="hidden"
               animate="visible"
             >
-              <h2 className="text-4xl font-bold mb-4">AI-Powered Insights</h2>
-              <p className="text-xl text-gray-600">Real-time analytics and smart recommendations for your portfolio</p>
+              <h2 className="text-4xl font-bold mb-4">Complete Service Suite</h2>
+              <p className="text-xl text-gray-600">Comprehensive blockchain financial services with cutting-edge AI integration</p>
             </motion.div>
+            
+            <motion.div 
+              className="grid md:grid-cols-3 gap-8 mb-12"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {/* Trading Services */}
+              <motion.div variants={itemVariants}>
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <ArrowLeftRight className="h-5 w-5 text-primary" />
+                      Trading Services
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h3 className="font-medium mb-1">Cross-Chain Trading</h3>
+                      <p className="text-sm text-muted-foreground">Seamless trading across multiple blockchain networks</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Quantum HFT</h3>
+                      <p className="text-sm text-muted-foreground">High-frequency trading powered by quantum algorithms</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Portfolio Optimization</h3>
+                      <p className="text-sm text-muted-foreground">AI-driven portfolio balancing and risk management</p>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link to="/exchange" className="flex items-center justify-between">
+                        Explore Trading <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              {/* Security Services */}
+              <motion.div variants={itemVariants}>
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-primary" />
+                      Security Services
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h3 className="font-medium mb-1">Fraud Detection</h3>
+                      <p className="text-sm text-muted-foreground">AI-powered blockchain transaction monitoring</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Smart Contract Auditing</h3>
+                      <p className="text-sm text-muted-foreground">Automated vulnerability detection in smart contracts</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Zero-Knowledge Proofs</h3>
+                      <p className="text-sm text-muted-foreground">Privacy-preserving transaction verification</p>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link to="/security" className="flex items-center justify-between">
+                        Explore Security <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              {/* AI Assistants */}
+              <motion.div variants={itemVariants}>
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Bot className="h-5 w-5 text-primary" />
+                      AI Assistants
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h3 className="font-medium mb-1">DeepSeek-Powered Copilot</h3>
+                      <p className="text-sm text-muted-foreground">Advanced AI assistant with natural language processing</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Voice Trading Assistant</h3>
+                      <p className="text-sm text-muted-foreground">Execute trades and get insights through voice commands</p>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-1">Portfolio Management Bot</h3>
+                      <p className="text-sm text-muted-foreground">Personalized investment recommendations</p>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link to="/analytics" className="flex items-center justify-between">
+                        Explore AI Tools <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
+            
+            {/* Second row of services */}
+            <motion.div 
+              className="grid md:grid-cols-2 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {/* Asset Management */}
+              <motion.div variants={itemVariants}>
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Coins className="h-5 w-5 text-primary" />
+                      Asset Management
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-1">Multi-Chain Wallet</h3>
+                        <p className="text-sm text-muted-foreground">Unified wallet for all blockchain assets</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">NFT Management</h3>
+                        <p className="text-sm text-muted-foreground">Track and trade non-fungible tokens</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">Token Management</h3>
+                        <p className="text-sm text-muted-foreground">Manage ERC-20, BEP-20 tokens and more</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">DeFi Integration</h3>
+                        <p className="text-sm text-muted-foreground">Access staking, lending, and yield farming</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link to="/assets" className="flex items-center justify-between">
+                        Manage Assets <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              {/* Analytics & Insights */}
+              <motion.div variants={itemVariants}>
+                <Card className="h-full">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <LineChart className="h-5 w-5 text-primary" />
+                      Analytics & Insights
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="font-medium mb-1">Market Predictions</h3>
+                        <p className="text-sm text-muted-foreground">AI-driven price forecasting</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">Sentiment Analysis</h3>
+                        <p className="text-sm text-muted-foreground">News and social media sentiment tracking</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">Pattern Recognition</h3>
+                        <p className="text-sm text-muted-foreground">Technical chart pattern identification</p>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-1">Backtesting Engine</h3>
+                        <p className="text-sm text-muted-foreground">Test strategies against historical data</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                      <Link to="/analytics" className="flex items-center justify-between">
+                        View Analytics <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Demo & Preview Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container">
+            <h2 className="text-3xl font-bold text-center mb-12">See Our AI in Action</h2>
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <AIInsights />
               <PortfolioAnalytics />
@@ -141,110 +305,11 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Features Grid */}
-        <section className="py-20 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-12">Platform Features</h2>
-            <motion.div 
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              {/* Wallet */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <Link to="/wallet" className="block">
-                      <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                        <Wallet className="w-6 h-6 text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-xl mb-2">Multi-Chain Wallet</h3>
-                      <p className="text-gray-600">Support for MetaMask, WalletConnect, and custom wallets</p>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Exchange */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <Link to="/exchange" className="block">
-                      <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                        <ArrowLeftRight className="w-6 h-6 text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-xl mb-2">Cross-Chain Exchange</h3>
-                      <p className="text-gray-600">Seamless trading across multiple blockchain networks</p>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Assets */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <Link to="/assets" className="block">
-                      <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                        <Coins className="w-6 h-6 text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-xl mb-2">Digital Assets</h3>
-                      <p className="text-gray-600">Manage tokens, NFTs, and smart contracts</p>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Transactions */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <Link to="/transactions" className="block">
-                      <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                        <Receipt className="w-6 h-6 text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-xl mb-2">Transaction History</h3>
-                      <p className="text-gray-600">Detailed tracking with fraud detection</p>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Security */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                      <Lock className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="font-semibold text-xl mb-2">Advanced Security</h3>
-                    <p className="text-gray-600">Multi-factor authentication and fraud prevention</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Analytics */}
-              <motion.div variants={itemVariants}>
-                <Card className="hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <CardContent className="pt-6">
-                    <div className="rounded-full bg-primary/10 p-3 w-12 h-12 flex items-center justify-center mb-4">
-                      <TrendingUp className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="font-semibold text-xl mb-2">Portfolio Analytics</h3>
-                    <p className="text-gray-600">AI-powered insights and recommendations</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
         {/* Stats Section */}
         <section className="py-20">
           <div className="container">
             <motion.div 
-              className="grid md:grid-cols-3 gap-8 text-center"
+              className="grid md:grid-cols-4 gap-8 text-center"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -261,6 +326,10 @@ const Index = () => {
                 <h3 className="text-4xl font-bold text-primary mb-2">4</h3>
                 <p className="text-gray-600">Blockchain Networks</p>
               </motion.div>
+              <motion.div variants={itemVariants}>
+                <h3 className="text-4xl font-bold text-primary mb-2">99.9%</h3>
+                <p className="text-gray-600">Security Uptime</p>
+              </motion.div>
             </motion.div>
           </div>
         </section>
@@ -275,7 +344,7 @@ const Index = () => {
             >
               <h2 className="text-3xl font-bold mb-6">Ready to Start Trading?</h2>
               <p className="text-lg mb-8 max-w-2xl mx-auto">
-                Join thousands of users who trust our platform for secure multi-chain trading
+                Join thousands of users who trust our platform for secure multi-chain trading with AI-powered insights
               </p>
               <div className="flex gap-4 justify-center">
                 <Button size="lg" variant="secondary" asChild>
@@ -288,9 +357,6 @@ const Index = () => {
             </motion.div>
           </div>
         </section>
-
-        {/* AI Copilot */}
-        <AICopilot />
       </div>
     </MotionConfig>
   );

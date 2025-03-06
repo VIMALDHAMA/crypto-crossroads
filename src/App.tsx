@@ -1,8 +1,10 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import "./App.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { AICopilot } from "@/components/AICopilot";
 import Dashboard from "@/pages/Dashboard";
 import Index from "@/pages/Index";
 import Account from "@/pages/Account";
@@ -43,6 +45,7 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <AICopilot />
         </div>
       </Router>
     </MotionConfig>

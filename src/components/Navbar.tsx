@@ -1,8 +1,13 @@
+
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { User, LogOut, Shield, BarChart2 } from "lucide-react";
+import { 
+  User, LogOut, Shield, BarChart2, Wallet, 
+  ArrowLeftRight, Coins, FileText, CreditCard, 
+  Home, Lock
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,11 +23,13 @@ const Navbar = () => {
   const isAuthenticated = false;
 
   const navItems = [
-    { path: "/dashboard", label: "Dashboard", protected: true },
-    { path: "/wallet", label: "Wallet", protected: true },
-    { path: "/exchange", label: "Exchange", protected: true },
-    { path: "/assets", label: "Assets", protected: true },
-    { path: "/transactions", label: "Transactions", protected: true },
+    { path: "/", label: "Home", icon: Home, protected: false },
+    { path: "/dashboard", label: "Dashboard", icon: BarChart2, protected: true },
+    { path: "/wallet", label: "Wallet", icon: Wallet, protected: true },
+    { path: "/exchange", label: "Exchange", icon: ArrowLeftRight, protected: true },
+    { path: "/assets", label: "Assets", icon: Coins, protected: true },
+    { path: "/transactions", label: "Transactions", icon: FileText, protected: true },
+    { path: "/payment", label: "Payment", icon: CreditCard, protected: true },
     { path: "/security", label: "Security", icon: Shield, protected: true },
     { path: "/analytics", label: "Analytics", icon: BarChart2, protected: true },
   ];
@@ -37,6 +44,7 @@ const Navbar = () => {
       <div className="container flex h-14 items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="mr-8 flex items-center space-x-2">
+            <Lock className="h-6 w-6 text-primary" />
             <span className="font-bold text-xl text-primary">BlockFin</span>
           </Link>
           <NavigationMenu>

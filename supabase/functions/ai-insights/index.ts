@@ -16,45 +16,50 @@ serve(async (req) => {
   }
 
   try {
-    const { prompt, type, imageUrl, chartData, newsText, contractAddress, transactionData } = await req.json();
+    const { prompt, type, imageUrl, chartData, newsText, contractAddress, transactionData, currentPage } = await req.json();
     
     let systemPrompt = '';
     let useDeepseek = false;
     
     switch (type) {
       case 'portfolio':
-        systemPrompt = 'You are a quantum-safe financial advisor. Analyze portfolios and provide secure recommendations.';
+        systemPrompt = 'You are a quantum-safe financial advisor. Analyze portfolios and provide secure recommendations. Reference the current page the user is on if relevant.';
         break;
       case 'security':
-        systemPrompt = 'You are a quantum security expert. Provide post-quantum cryptography insights and security recommendations.';
+        systemPrompt = 'You are a quantum security expert. Provide post-quantum cryptography insights and security recommendations. Be aware of the user\'s current page context.';
         useDeepseek = true; // Use DeepSeek for complex security analysis
         break;
       case 'contract':
-        systemPrompt = 'You are a smart contract security auditor. Analyze smart contracts for vulnerabilities and provide remediation advice.';
+        systemPrompt = 'You are a smart contract security auditor. Analyze smart contracts for vulnerabilities and provide remediation advice. Reference relevant sections of the UI if the user is on a specific page.';
         useDeepseek = true; // Use DeepSeek for contract analysis
         break;
       case 'fraud':
-        systemPrompt = 'You are a blockchain fraud detection expert. Analyze transaction patterns to identify suspicious activities.';
+        systemPrompt = 'You are a blockchain fraud detection expert. Analyze transaction patterns to identify suspicious activities. If the user is on a specific page, reference its features.';
         useDeepseek = true; // Use DeepSeek for fraud detection
         break;
       case 'file':
         systemPrompt = 'You are a secure file analysis expert. Analyze documents and provide insights while maintaining quantum-resistant security standards.';
         break;
       case 'sentiment':
-        systemPrompt = 'You are a financial sentiment analysis expert. Analyze financial news and social media to provide sentiment insights.';
+        systemPrompt = 'You are a financial sentiment analysis expert. Analyze financial news and social media to provide sentiment insights. Connect insights to relevant sections of the application if applicable.';
         break;
       case 'pattern':
-        systemPrompt = 'You are a technical chart pattern recognition expert. Identify patterns in financial charts and provide trading insights.';
+        systemPrompt = 'You are a technical chart pattern recognition expert. Identify patterns in financial charts and provide trading insights. Guide users to relevant tools in the application.';
         break;
       case 'multimodal':
-        systemPrompt = 'You are a multimodal financial analysis expert. Combine text, image, and numerical data to provide comprehensive financial insights.';
+        systemPrompt = 'You are a multimodal financial analysis expert. Combine text, image, and numerical data to provide comprehensive financial insights. Reference UI elements when appropriate.';
         break;
       case 'voice':
-        systemPrompt = 'You are a voice-powered trading assistant. Respond to voice commands and provide real-time trading assistance with natural conversational style.';
+        systemPrompt = 'You are a voice-powered trading assistant. Respond to voice commands and provide real-time trading assistance with natural conversational style. Be context-aware of which page the user is currently on.';
         useDeepseek = true; // Use DeepSeek for natural voice conversations
         break;
       default:
-        systemPrompt = 'You are a quantum-safe AI assistant providing secure financial insights.';
+        systemPrompt = 'You are a quantum-safe AI assistant providing secure financial insights. Be aware of which page the user is currently on and provide contextually relevant information.';
+    }
+
+    // Add current page context to system prompt if provided
+    if (currentPage) {
+      systemPrompt += ` The user is currently on the ${currentPage} page of the application.`;
     }
 
     // Build the user message content
