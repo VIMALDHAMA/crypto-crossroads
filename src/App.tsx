@@ -19,6 +19,12 @@ import Analytics from "@/pages/Analytics";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import ForgotPassword from "@/pages/ForgotPassword";
+import HelpCenter from "@/pages/HelpCenter";
+import Contact from "@/pages/Contact";
+import Affiliation from "@/pages/Affiliation";
+import Careers from "@/pages/Careers";
+import Contribution from "@/pages/Contribution";
+import ServiceCharges from "@/pages/ServiceCharges";
 
 function App() {
   return (
@@ -42,6 +48,12 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/help-center" element={<HelpCenter />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/affiliation" element={<Affiliation />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/contribution" element={<Contribution />} />
+              <Route path="/service-charges" element={<ServiceCharges />} />
             </Routes>
           </main>
           <Footer />

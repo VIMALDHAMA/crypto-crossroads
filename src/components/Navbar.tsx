@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   User, LogOut, Shield, BarChart2, Wallet, 
   ArrowLeftRight, Coins, FileText, CreditCard, 
-  Home, Lock
+  Home, Lock, HelpCircle, Phone, Briefcase
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -32,6 +32,13 @@ const Navbar = () => {
     { path: "/payment", label: "Payment", icon: CreditCard, protected: true },
     { path: "/security", label: "Security", icon: Shield, protected: true },
     { path: "/analytics", label: "Analytics", icon: BarChart2, protected: true },
+  ];
+
+  const supportItems = [
+    { path: "/help-center", label: "Help Center", icon: HelpCircle, protected: false },
+    { path: "/contact", label: "Contact Us", icon: Phone, protected: false },
+    { path: "/careers", label: "Careers", icon: Briefcase, protected: false },
+    { path: "/service-charges", label: "Service Charges", icon: FileText, protected: false },
   ];
 
   const handleLogout = () => {
@@ -69,6 +76,25 @@ const Navbar = () => {
           </NavigationMenu>
         </div>
         <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Support
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {supportItems.map((item) => (
+                <DropdownMenuItem key={item.path} asChild>
+                  <Link to={item.path} className="flex items-center">
+                    <item.icon className="w-4 h-4 mr-2" />
+                    {item.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
