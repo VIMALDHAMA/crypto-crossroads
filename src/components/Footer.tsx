@@ -4,7 +4,7 @@ import {
   Shield, BarChart2, CreditCard, HelpCircle, Users, 
   Briefcase, Phone, FileText, Info, ArrowRight, 
   Mail, Twitter, Linkedin, Github, Facebook, ArrowUp,
-  Lock
+  Lock, Wallet
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
