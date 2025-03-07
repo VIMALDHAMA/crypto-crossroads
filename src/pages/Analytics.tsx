@@ -13,33 +13,35 @@ const Analytics = () => {
   return (
     <div className="container py-8">
       <div className="flex items-center gap-2 mb-8">
-        <LineChart className="w-8 h-8 text-primary" />
-        <h1 className="text-4xl font-bold">Analytics & AI Trading</h1>
+        <div className="p-2 rounded-lg bg-primary/10">
+          <LineChart className="w-8 h-8 text-primary" />
+        </div>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-indigo-500 bg-clip-text text-transparent">Analytics & AI Trading</h1>
       </div>
 
       <Tabs defaultValue="portfolio" className="space-y-8">
-        <TabsList className="grid grid-cols-2 sm:grid-cols-6 w-full max-w-4xl">
-          <TabsTrigger value="portfolio" className="flex items-center gap-1">
+        <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 w-full max-w-4xl bg-background/80 backdrop-blur-sm p-1 rounded-xl">
+          <TabsTrigger value="portfolio" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <BarChart3 className="h-4 w-4" />
             Portfolio
           </TabsTrigger>
-          <TabsTrigger value="agent" className="flex items-center gap-1">
+          <TabsTrigger value="agent" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Brain className="h-4 w-4" />
             RL Agent
           </TabsTrigger>
-          <TabsTrigger value="voice" className="flex items-center gap-1">
+          <TabsTrigger value="voice" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Mic className="h-4 w-4" />
             Voice Trading
           </TabsTrigger>
-          <TabsTrigger value="patterns" className="flex items-center gap-1">
+          <TabsTrigger value="patterns" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <TrendingUp className="h-4 w-4" />
             Patterns
           </TabsTrigger>
-          <TabsTrigger value="sentiment" className="flex items-center gap-1">
+          <TabsTrigger value="sentiment" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Sparkles className="h-4 w-4" />
             Sentiment
           </TabsTrigger>
-          <TabsTrigger value="ai-dao" className="flex items-center gap-1">
+          <TabsTrigger value="ai-dao" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Bot className="h-4 w-4" />
             AI-DAO
           </TabsTrigger>
@@ -47,11 +49,11 @@ const Analytics = () => {
 
         <TabsContent value="portfolio">
           <div className="grid gap-6">
-            <Card>
-              <CardHeader>
+            <Card className="border-primary/20 shadow-md">
+              <CardHeader className="bg-primary/5 rounded-t-lg">
                 <CardTitle>Portfolio Performance</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <PortfolioAnalytics />
               </CardContent>
             </Card>
@@ -72,11 +74,11 @@ const Analytics = () => {
 
         <TabsContent value="patterns">
           <div className="grid gap-6">
-            <Card>
-              <CardHeader>
+            <Card className="border-primary/20 shadow-md">
+              <CardHeader className="bg-primary/5 rounded-t-lg">
                 <CardTitle>Chart Pattern Recognition</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <ChartPatternRecognition />
               </CardContent>
             </Card>
@@ -85,11 +87,11 @@ const Analytics = () => {
 
         <TabsContent value="sentiment">
           <div className="grid gap-6">
-            <Card>
-              <CardHeader>
+            <Card className="border-primary/20 shadow-md">
+              <CardHeader className="bg-primary/5 rounded-t-lg">
                 <CardTitle>Market Sentiment Analysis</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <SentimentAnalysis />
               </CardContent>
             </Card>
