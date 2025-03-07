@@ -25,6 +25,10 @@ import Affiliation from "@/pages/Affiliation";
 import Careers from "@/pages/Careers";
 import Contribution from "@/pages/Contribution";
 import ServiceCharges from "@/pages/ServiceCharges";
+import RecurringPayments from "@/pages/RecurringPayments";
+import PaymentRequests from "@/pages/PaymentRequests";
+import CryptoWallets from "@/pages/CryptoWallets";
+import TransactionHistory from "@/pages/TransactionHistory";
 
 function App() {
   return (
@@ -54,6 +58,11 @@ function App() {
               <Route path="/careers" element={<Careers />} />
               <Route path="/contribution" element={<Contribution />} />
               <Route path="/service-charges" element={<ServiceCharges />} />
+              {/* New crypto payment related routes */}
+              <Route path="/recurring-payments" element={<RecurringPayments />} />
+              <Route path="/payment-requests" element={<PaymentRequests />} />
+              <Route path="/crypto-wallets" element={<CryptoWallets />} />
+              <Route path="/transaction-history" element={<TransactionHistory />} />
             </Routes>
           </main>
           <Footer />
