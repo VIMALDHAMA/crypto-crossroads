@@ -29,6 +29,9 @@ import RecurringPayments from "@/pages/RecurringPayments";
 import PaymentRequests from "@/pages/PaymentRequests";
 import CryptoWallets from "@/pages/CryptoWallets";
 import TransactionHistory from "@/pages/TransactionHistory";
+import StockAnalysis from "@/pages/StockAnalysis";
+import AdvancedPatterns from "@/pages/AdvancedPatterns";
+import TradingStrategies from "@/pages/TradingStrategies";
 
 function App() {
   return (
@@ -58,11 +61,15 @@ function App() {
               <Route path="/careers" element={<Careers />} />
               <Route path="/contribution" element={<Contribution />} />
               <Route path="/service-charges" element={<ServiceCharges />} />
-              {/* New crypto payment related routes */}
+              {/* Crypto payment related routes */}
               <Route path="/recurring-payments" element={<RecurringPayments />} />
               <Route path="/payment-requests" element={<PaymentRequests />} />
               <Route path="/crypto-wallets" element={<CryptoWallets />} />
               <Route path="/transaction-history" element={<TransactionHistory />} />
+              {/* Stock analysis related routes */}
+              <Route path="/stock-analysis" element={<StockAnalysis />} />
+              <Route path="/advanced-patterns" element={<AdvancedPatterns />} />
+              <Route path="/trading-strategies" element={<TradingStrategies />} />
             </Routes>
           </main>
           <Footer />
