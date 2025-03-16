@@ -7,7 +7,7 @@ import {
   User, LogOut, Shield, BarChart2, Wallet, 
   ArrowLeftRight, Coins, FileText, CreditCard, 
   Home, Lock, HelpCircle, Phone, Briefcase,
-  Moon, Sun
+  Moon, Sun, MessageSquare
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -120,6 +120,18 @@ const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-2">
+          <Link to="/social-messaging">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="relative"
+              aria-label="Messages"
+            >
+              <MessageSquare className="h-4 w-4" />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-white">3</span>
+            </Button>
+          </Link>
+          
           <Button 
             variant="outline" 
             size="icon" 
