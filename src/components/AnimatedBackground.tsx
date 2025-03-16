@@ -1,7 +1,7 @@
 
 import { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { PointMaterial, Points, OrbitControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { PointMaterial, Points } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Random stars generation
@@ -37,25 +37,24 @@ const AnimatedStars = ({
   gradient = ['#1a365d', '#0d9488']
 }: AnimatedStarsProps) => {
   const pointsRef = useRef<THREE.Points>(null);
-  const positionsArray = randomInSphere(count, radius);
   
-  useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.x = Math.sin(state.clock.elapsedTime * speed * 0.3) * 0.2;
-      pointsRef.current.rotation.y = Math.sin(state.clock.elapsedTime * speed * 0.2) * 0.2;
-    }
-  });
-
+  // Fixed: Generate positions array properly
+  const positions = randomInSphere(count, radius);
+  
   return (
-    <Points ref={pointsRef} positions={positionsArray} stride={3} frustumCulled={false}>
+    <Points 
+      ref={pointsRef} 
+      positions={positions}
+      stride={3} 
+      frustumCulled={false}
+    >
       <PointMaterial
         transparent
+        color={gradient[0]}
         size={0.05}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
-        vertexColors
-        color={gradient[0]}
       />
     </Points>
   );
@@ -67,13 +66,6 @@ const AnimatedBackground = () => {
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
         <ambientLight intensity={0.5} />
         <AnimatedStars />
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          enableRotate={true}
-          autoRotate={true}
-          autoRotateSpeed={0.5}
-        />
       </Canvas>
     </div>
   );
