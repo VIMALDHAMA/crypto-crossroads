@@ -32,6 +32,7 @@ import TransactionHistory from "@/pages/TransactionHistory";
 import StockAnalysis from "@/pages/StockAnalysis";
 import AdvancedPatterns from "@/pages/AdvancedPatterns";
 import TradingStrategies from "@/pages/TradingStrategies";
+import SocialMessaging from "@/pages/SocialMessaging";
 
 function App() {
   return (
@@ -70,6 +71,8 @@ function App() {
               <Route path="/stock-analysis" element={<StockAnalysis />} />
               <Route path="/advanced-patterns" element={<AdvancedPatterns />} />
               <Route path="/trading-strategies" element={<TradingStrategies />} />
+              {/* Social messaging route */}
+              <Route path="/social-messaging" element={<SocialMessaging />} />
             </Routes>
           </main>
           <Footer />
