@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeftRight, Coins, TrendingUp, Brain, MessageSquare } from "lucide-react";
+import { ArrowLeftRight, Coins, TrendingUp, Brain, MessageSquare, ChartLine } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useWeb3 } from "@/lib/web3";
 import { Link } from "react-router-dom";
@@ -183,17 +183,17 @@ export default function Exchange() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5" />
-                  Social Trading
+                  <ChartLine className="h-5 w-5" />
+                  Chart Analysis
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Connect with traders and share insights.
+                  Analyze any chart image with our AI-powered ChartScan.
                 </p>
-                <Link to="/social-messaging">
-                  <Button className="w-full">
-                    Trading Community
+                <Link to="/chart-scan">
+                  <Button className="w-full bg-gradient-to-r from-primary to-indigo-600">
+                    Try ChartScan AI
                   </Button>
                 </Link>
               </CardContent>

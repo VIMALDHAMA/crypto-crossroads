@@ -7,7 +7,8 @@ import { ChartPatternRecognition } from "@/components/ChartPatternRecognition";
 import { TradingAgent } from "@/components/TradingAgent";
 import { VoiceTradeAssistant } from "@/components/VoiceTradeAssistant";
 import { AITradingDAO } from "@/components/AITradingDAO";
-import { LineChart, BarChart3, Brain, Mic, TrendingUp, Bot, Sparkles } from "lucide-react";
+import { ChartScan } from "@/components/ChartScan";
+import { LineChart, BarChart3, Brain, Mic, TrendingUp, Bot, Sparkles, ChartLine } from "lucide-react";
 
 const Analytics = () => {
   return (
@@ -20,7 +21,7 @@ const Analytics = () => {
       </div>
 
       <Tabs defaultValue="portfolio" className="space-y-8">
-        <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 w-full max-w-4xl bg-background/80 backdrop-blur-sm p-1 rounded-xl">
+        <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 w-full max-w-5xl bg-background/80 backdrop-blur-sm p-1 rounded-xl">
           <TabsTrigger value="portfolio" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <BarChart3 className="h-4 w-4" />
             Portfolio
@@ -40,6 +41,10 @@ const Analytics = () => {
           <TabsTrigger value="sentiment" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Sparkles className="h-4 w-4" />
             Sentiment
+          </TabsTrigger>
+          <TabsTrigger value="chart-scan" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
+            <ChartLine className="h-4 w-4" />
+            ChartScan
           </TabsTrigger>
           <TabsTrigger value="ai-dao" className="flex items-center gap-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-indigo-500/80 data-[state=active]:text-white">
             <Bot className="h-4 w-4" />
@@ -82,6 +87,12 @@ const Analytics = () => {
                 <ChartPatternRecognition />
               </CardContent>
             </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="chart-scan">
+          <div className="grid gap-6">
+            <ChartScan />
           </div>
         </TabsContent>
 

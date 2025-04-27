@@ -37,7 +37,7 @@ const AnimatedBackground: React.FC = () => {
       <div className="absolute bottom-1/4 left-1/4 w-20 h-20 bg-secondary/10 rounded-full blur-xl animate-float-delayed"></div>
       <div className="absolute top-2/3 right-1/3 w-16 h-16 bg-primary/10 rounded-full blur-xl animate-float-reverse"></div>
       
-      <style jsx>{`
+      <style>{`
         .stars-container {
           position: absolute;
           inset: 0;

@@ -33,6 +33,7 @@ import StockAnalysis from "@/pages/StockAnalysis";
 import AdvancedPatterns from "@/pages/AdvancedPatterns";
 import TradingStrategies from "@/pages/TradingStrategies";
 import SocialMessaging from "@/pages/SocialMessaging";
+import ChartScanPage from "@/pages/ChartScan";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
               <Route path="/stock-analysis" element={<StockAnalysis />} />
               <Route path="/advanced-patterns" element={<AdvancedPatterns />} />
               <Route path="/trading-strategies" element={<TradingStrategies />} />
+              <Route path="/chart-scan" element={<ChartScanPage />} />
               {/* Social messaging route */}
               <Route path="/social-messaging" element={<SocialMessaging />} />
             </Routes>
